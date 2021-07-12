@@ -1,0 +1,13 @@
+.img-centre {
+    margin: auto;
+    display: block;
+}
+.card {
+    margin:0 auto;
+    width: 27rem;
+}
+.card-img-top {
+    max-width: 300px;
+    width: 100%;
+    height: auto;
+}
