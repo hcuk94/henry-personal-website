@@ -11,7 +11,7 @@
 <div class="row">&nbsp;</div>
 <div class="row">
 <div class="col-xl-3">
-<img src="henry-profile.jpg" width="250px" class="img-thumbnail rounded img-centre" alt="Henry Cole Profile Picture"/>
+<img src="/img/henry-profile.jpg" width="250px" class="img-thumbnail rounded img-centre" alt="Henry Cole Profile Picture"/>
 <h1 class="text-center display-5 mt-2">Henry Cole</h1>
 <p class="text-center lead mt-2">Systems Analyst with 10 years' experience in enterprise IT</p>
 <span class="text-center img-centre">
