@@ -10,10 +10,10 @@
     max-width: 75%;
 }
 .unstyled-link {
-    color: inherit;
+    color: unset;
     text-decoration: none;
   }
 .unstyled-link:hover {
-    color: inherit;
+    color: unset;
     text-decoration: none;
 }
