@@ -109,13 +109,10 @@ In my spare time I like travelling, visiting quirky pubs, and tinkering with per
 <div class="posts">
   {% for post in site.posts %}
     <article class="post">
-
       <h3><a href="{{ site.baseurl }}{{ post.url }}" class="unstyled-link">{{ post.title }}</a></h3>
-
-      <div class="entry">
+      <p>
         {{ post.excerpt }}
-      </div>
-
+      </p>
       <a href="{{ site.baseurl }}{{ post.url }}" class="unstyled-link">Read More</a>
     </article>
   {% endfor %}
