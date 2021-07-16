@@ -1,24 +1,26 @@
 version: 2.1
-workflows:
-    update-live:
-        jobs:
-            build:
-                docker:
-                    - image: ubuntu
-                filters:
-                    branches:
-                        only:
-                            - staging
-                steps:
-                    - run:
-                        name: build-dependencies
-                        command: |
-                            apt update;
-                            apt install -y git rsync;
-                
-                    - checkout
+jobs:
+    build-live:
+        docker:
+            - image: ubuntu
+        filters:
+            branches:
+                only:
+                    - staging
+        steps:
+            - run:
+                name: build-dependencies
+                command: |
+                    apt update;
+                    apt install -y git rsync;
+        
+            - checkout
 
-                    - run:
-                        name: build-deploy
-                        command: |
-                            rsync -avz --delete -e 'ssh -p 53122 -o StrictHostKeyChecking=no' --omit-dir-times --chown:nginx:nginx --chmod=0644 --exclude='.gitignore' --exclude='.circleci/' . circleci@lon3.dustyservers.com:/var/www/staging.henrycole.uk/html/;
+            - run:
+                name: build-deploy
+                command: |
+                    rsync -avz --delete -e 'ssh -p 53122 -o StrictHostKeyChecking=no' --omit-dir-times --chown:nginx:nginx --chmod=0644 --exclude='.gitignore' --exclude='.circleci/' . circleci@lon3.dustyservers.com:/var/www/staging.henrycole.uk/html/;
+workflows:
+    do-build:
+        jobs:
+            - build-live
