@@ -2,11 +2,3 @@
     margin: auto;
     display: block;
 }
-.card {
-    margin:0 auto;
-}
-.card-img-top {
-    max-width: 100%;
-    width: 100%;
-    height: auto;
-}
