@@ -20,7 +20,8 @@ jobs:
             - run:
                 name: build-deploy-live
                 command: |
-                    echo "Hello!"
+                    rsync -avz --delete -e 'ssh -p 53122 -o StrictHostKeyChecking=no' --omit-dir-times --exclude='.git/' --exclude='.gitignore' --exclude='.circleci/' . circleci@lon3.dustyservers.com:/var/www/henrycole.uk/html/;
+
     build-staging:
         docker:
             - image: ubuntu
