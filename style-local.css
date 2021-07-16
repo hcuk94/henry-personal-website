@@ -2,3 +2,10 @@
     margin: auto;
     display: block;
 }
+.card-work {
+    width: 100%;
+    max-width: 100%;
+}
+.card-img-work {
+    max-width: 100%;
+}
