@@ -9,3 +9,7 @@
 .card-img-work {
     max-width: 75%;
 }
+.page-title-link {
+    color: unset;
+    text-decoration: unset;
+  }
