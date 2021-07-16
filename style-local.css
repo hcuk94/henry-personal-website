@@ -9,3 +9,17 @@
 .card-img-work {
     max-width: 75%;
 }
+.site-title {
+    color: inherit;
+    text-decoration: inherit;
+  }
+  
+  .site-title:link {
+    color: inherit;
+    text-decoration: inherit;
+  }
+  
+  .site-title:hover {
+    color: inherit;
+    text-decoration: inherit;
+  }
