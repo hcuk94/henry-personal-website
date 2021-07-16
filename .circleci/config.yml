@@ -22,6 +22,4 @@ workflows:
     do-build:
         jobs:
             - build-live
-                filters:
-                    branches:
-                        only: staging
+
