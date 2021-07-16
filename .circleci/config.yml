@@ -20,7 +20,7 @@ jobs:
             - run:
                 name: build-deploy
                 command: |
-                    ssh -p 53122 circleci@lon3.dustyservers.com
+                    ssh -p 53122 -o StrictHostKeyChecking=no circleci@lon3.dustyservers.com
                     rsync -avz --delete -e 'ssh -p 53122 -o StrictHostKeyChecking=no' --omit-dir-times --chmod=0644 --exclude='.gitignore' --exclude='.circleci/' . circleci@lon3.dustyservers.com:/var/www/staging.henrycole.uk/html/;
 
 workflows:
