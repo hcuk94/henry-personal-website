@@ -41,7 +41,7 @@ jobs:
             - run:
                 name: build-deploy-staging
                 command: |
-                    ssh -p 53122 -o StrictHostKeyChecking=no circleci@lon11.dustyservers.com 'docker-compose rm henry-personal-website-staging'
+                    ssh -p 53122 -o StrictHostKeyChecking=no circleci@lon11.dustyservers.com 'docker-compose -f /etc/docker/services/henry-personal-website-staging/docker-compose.yml rm henry-personal-website-staging'
                     rsync -avz --delete -e 'ssh -p 53122 -o StrictHostKeyChecking=no' --omit-dir-times --exclude='.git/' --exclude='.gitignore' --exclude='.circleci/' . circleci@lon11.dustyservers.com:/etc/docker/services/henry-personal-website-staging/srv/;
                     ssh -p 53122 -o StrictHostKeyChecking=no circleci@lon11.dustyservers.com 'docker-compose -f /etc/docker/services/henry-personal-website-staging/docker-compose.yml up -d --force-recreate'
  
