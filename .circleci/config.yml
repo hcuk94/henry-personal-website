@@ -27,7 +27,8 @@ jobs:
                     echo "Hello!"
                 filters:
                     branches:
-                        only: main
+                        only: 
+                            - main
 
 workflows:
     do-build:
