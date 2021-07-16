@@ -1,36 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<meta name="viewport" content="initial-scale=1.0">
-<title>Henry Cole</title>
-<!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<link href="style-local.css" rel="stylesheet">
-</head>
-<body>
-<!-- Begin 'Sidebar' Section -->
-<div class="container">
-<div class="row">
-<div class="col-xl-3 col-12">
-<div class="sticky-top pt-4"> 
-<img src="/img/henry-profile.jpg" width="250px" class="img-thumbnail rounded img-centre affix" alt="Henry Cole Profile Picture"/>
-<h1 class="text-center display-5 mt-2">Henry Cole</h1>
-<p class="text-center lead mt-2">Systems Analyst with 10 years' experience in enterprise IT</p>
-<span class="text-center img-centre">
-<nav class="nav justify-content-center">
-<a class="nav-link text-secondary" href="#">twitter</a>
-<a class="nav-link text-secondary" href="#">discord</a>
-<a class="nav-link text-secondary" href="#">github</a>
-</nav>
-</span>
-<br/>
-</div>
-</div>
-<!-- End 'Sidebar' Section -->
-<!-- Main Column -->
-<div class="col-10 col-lg-11 col-xl-8 m-4">
-<!-- Welcome -->
+---
+layout: default
+---
+
 <div class="row">
 <h2>Hello</h2>
 <p>My name is Henry Cole. I'm a systems analyst from London. I currently work at PRS for Music, primarily with Oracle/Java applications. 
@@ -135,16 +106,23 @@ In my spare time I like travelling, visiting quirky pubs, and tinkering with per
 <!-- Blog -->
 <div class="row">
 <h2 class="mt-4">Blog</h2>
-<p>Maybe one day I'll have one...</p>
+<div class="posts">
+  {% for post in site.posts %}
+    <article class="post">
+
+      <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
+
+      <div class="entry">
+        {{ post.excerpt }}
+      </div>
+
+      <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
+    </article>
+  {% endfor %}
+</div>
 </div>
 <!-- Contact -->
 <div class="row">
 <h2 class="mt-4">Contact Me</h2>
 <p>You can reach me by email, Twitter, Discord. If you're lucky I might tell you how.</p>
 </div>
-</div>
-</div>
-<div class="row">&nbsp;</div>
-</div>
-</body>
-</html>
