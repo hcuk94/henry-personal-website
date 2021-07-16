@@ -4,10 +4,9 @@
 }
 .card {
     margin:0 auto;
-    width: 27rem;
 }
 .card-img-top {
-    max-width: 300px;
+    max-width: 100%;
     width: 100%;
     height: auto;
 }
