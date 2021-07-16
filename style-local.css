@@ -9,11 +9,3 @@
 .card-img-work {
     max-width: 75%;
 }
-.unstyled-link {
-    color: unset;
-    text-decoration: none;
-  }
-.unstyled-link:hover {
-    color: unset;
-    text-decoration: none;
-}
