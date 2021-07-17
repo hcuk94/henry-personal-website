@@ -111,7 +111,7 @@ In my spare time I like travelling, visiting quirky pubs, and tinkering with per
     <article class="post">
       <h3><a href="{{ site.baseurl }}{{ post.url }}" class="text-reset text-decoration-none">{{ post.title }}</a></h3>
       <p>{{ post.excerpt }}</p>
-      <p class="text-muted">{{ post.date }}</p>
+      <p class="text-muted">{{ post.date | date: "%-d %B %Y"}}</p>
     </article>
   {% endfor %}
 </div>
