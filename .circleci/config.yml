@@ -22,7 +22,7 @@ jobs:
                 command: |
                     rsync -avz --delete -e 'ssh -p 53122 -o StrictHostKeyChecking=no' --omit-dir-times --exclude='.git/' --exclude='.gitignore' --exclude='.circleci/' . circleci@lon3.dustyservers.com:/var/www/henrycole.uk/html/;
 
-    build-staging:
+    build-staging-old:
         docker:
             - image: ubuntu
         steps:
@@ -42,8 +42,28 @@ jobs:
                 name: build-deploy-staging
                 command: |
                     ssh -p 53122 -o StrictHostKeyChecking=no circleci@lon11.dustyservers.com 'docker-compose -f /etc/docker/services/henry-personal-website-staging/docker-compose.yml rm henry-personal-website-staging'
-                    rsync -avz --delete -e 'ssh -p 53122 -o StrictHostKeyChecking=no' --omit-dir-times --exclude='.git/' --exclude='.gitignore' --exclude='.circleci/' . circleci@lon11.dustyservers.com:/etc/docker/services/henry-personal-website-staging/srv/;
+                    rsync -avz --delete -e 'ssh -p 53122 -o StrictHostKeyChecking=no' .docker-compose/staging-docker-compose.yml circleci@lon11.dustyservers.com:/etc/docker/services/henry-personal-website-staging/docker-compose.yml;
+                    rsync -avz --delete -e 'ssh -p 53122 -o StrictHostKeyChecking=no' --omit-dir-times --exclude='.git/' --exclude=".docker-compose/" --exclude='.gitignore' --exclude='.circleci/' . circleci@lon11.dustyservers.com:/etc/docker/services/henry-personal-website-staging/srv/;
                     ssh -p 53122 -o StrictHostKeyChecking=no circleci@lon11.dustyservers.com 'docker-compose -f /etc/docker/services/henry-personal-website-staging/docker-compose.yml up -d --force-recreate'
+    build-staging:
+        docker:
+            - image: jekyll/jekyll:latest
+        steps:
+            - run:
+                name: dependencies-staging
+                command: |
+                    apk update;
+                    apk add rsync
+            - checkout
+            - run:
+                name: build-staging
+                command: |
+                    jekyll build --drafts
+            - run:
+                name: deploy-staging
+                command: |
+                    rsync -avz --delete -e 'ssh -p 53122 -o StrictHostKeyChecking=no' --omit-dir-times --exclude='.git/' --exclude='.gitignore' --exclude='.circleci/' . circleci@lon3.dustyservers.com:/var/www/staging.henrycole.uk/html/;
+
  
 
 workflows:
