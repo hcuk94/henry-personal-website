@@ -2,11 +2,13 @@
 # hnery-personal-website .gitignore file
 #
 
-# Python
-__pycache__/*
-
 # henry-personal-website
 
+# Jekyll
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
 
 # PyCharm/IntelliJ
 *.idea/*
