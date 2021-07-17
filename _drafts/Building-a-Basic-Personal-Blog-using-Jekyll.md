@@ -42,11 +42,13 @@ Most of the site HTML goes in the header.html and footer.html includes. This giv
 The _layouts/ folder then contains a 'type' of page or post for example. I've gone for default (homepage) and post (blog posts).
 
 Then, at the top of each markdown or HTML file, you simply start the file with the following:
-`---`
-`layout: post`
-`title: This is my blog post`
-`excerpt: A blog post about things and such`
-`---`
+```
+    ---
+    layout: post
+    title: This is my blog post
+    excerpt: A blog post about things and such
+    ---
+```
 ...and put your content underneath. Jekyll will do the rest, creating static HTML pages for your blog posts, homepage, etc, showing a list of your blog posts where you have chosen to do so.
 
 One day I'll put some more text here...
