@@ -17,7 +17,7 @@ In other words, to write a blog post I just have to write a basic markdown file 
 I also wanted to automate this where possible - the likes of WordPress have an easy web editor. That's not something we get here, as we're just working with files, so realistically I'll be using text editing software to write blog posts and build the website.
 
 I settled on the below as a plan for how I would make publishing to my new website as easy as possible:
-![Diagram of deployment flow for this website](/img/blog/site-diagram.jpg)
+<img src="/img/blog/site-diagram.jpg" alt="Diagram of deployment flow for this website" class="post-img">
 
 The goal is to be able to use VS Code on my MacBook to edit my blog, and all I need to do is commit & push to GitHub when I make changes - the site will then be updated accordingly.
 
