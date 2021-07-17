@@ -1,49 +1,19 @@
 ---
 layout: default
 ---
-
+<!-- Intro -->
 <div class="row">
 <h2>Hello</h2>
 <p>My name is Henry Cole. I'm a systems analyst from London. I currently work at PRS for Music, primarily with Oracle/Java applications. 
 In my spare time I like travelling, visiting quirky pubs, and tinkering with personal code/computer projects.</p>
 </div>
-<div class="row mt-4">
-    <div class="col-sm-auto">
-        <h6>Technical Skills:</h6>
-        <ul class="list-unstyled">
-            <li>Oracle Database</li>
-            <li>Apache Tomcat</li>
-            <li>Office 365</li>
-            <li>Azure Active Directory</li>
-            <li>TCP/IP Networking</li>
-            <li>Windows Server</li>
-            <li>WiFi</li>
-            <li>SIP/VOIP Telephony</li>
-            <li>Access Control & CCTV Systems</li>
-        </ul>
-    </div>
-    <div class="col-sm-auto">
-        <h6>Code:</h6>
-        <ul class="list-unstyled">
-            <li>SQL (Oracle, Microsoft & MySQL)</li>
-            <li>Python</li>
-            <li>HTML5/CSS</li>
-            <li>Java</li>
-        </ul>
-    </div>
-    <div class="col-sm-auto">
-        <h6>Other Skills:</h6>
-        <ul class="list-unstyled">
-            <li>Application Portfolio Management</li>
-            <li>IT Service Management</li>
-            <li>English</li>
-            <li>French</li>
-            <li>German</li>
-        </ul>
-    </div>
+<!-- Blog -->
+<div class="row">
+  <h2 class="mt-4">Blog</h2>
+  {% include blog_cards.html %}
 </div>
-
 <!-- Work History -->
+<div class="row">
 <h2 class="mt-4">Work</h2>
 <div class="row row-cols-1 row-cols-lg-2">
 <div class="col-lg-6 col-md-9 mb-3">
@@ -101,12 +71,44 @@ In my spare time I like travelling, visiting quirky pubs, and tinkering with per
     <span class="badge bg-light text-dark">MySQL</span>
     <span class="badge bg-light text-dark">SIP/VOIP Telephony</span>
   </div>
-</div></div>
+</div></div></div>
 </div>
-<!-- Blog -->
+<!-- Skills & Competencies -->
 <div class="row">
-  <h2 class="mt-4">Blog</h2>
-  {% include blog_cards.html %}
+<h2 class="mt-4">Skills & Competencies</h2>
+  <div class="col-sm-auto">
+      <h6>Technical Skills:</h6>
+      <ul class="list-unstyled">
+          <li>Oracle Database</li>
+          <li>Apache Tomcat</li>
+          <li>Office 365</li>
+          <li>Azure Active Directory</li>
+          <li>TCP/IP Networking</li>
+          <li>Windows Server</li>
+          <li>WiFi</li>
+          <li>SIP/VOIP Telephony</li>
+          <li>Access Control & CCTV Systems</li>
+      </ul>
+  </div>
+  <div class="col-sm-auto">
+      <h6>Code:</h6>
+      <ul class="list-unstyled">
+          <li>SQL (Oracle, Microsoft & MySQL)</li>
+          <li>Python</li>
+          <li>HTML5/CSS</li>
+          <li>Java</li>
+      </ul>
+  </div>
+  <div class="col-sm-auto">
+      <h6>Other Skills:</h6>
+      <ul class="list-unstyled">
+          <li>Application Portfolio Management</li>
+          <li>IT Service Management</li>
+          <li>English</li>
+          <li>French</li>
+          <li>German</li>
+      </ul>
+  </div></div>
 </div>
 <!-- Contact -->
 <div class="row">
