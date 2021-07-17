@@ -3,48 +3,27 @@ version: 2.1
 jobs:
     build-live:
         docker:
-            - image: ubuntu
+            - image: jekyll/jekyll:latest
         steps:
             - run:
-                name: build-dependencies
+                name: dependencies-live
                 command: |
-                    apt update;
-                    apt install -y git rsync;
-        
+                    apk update;
+                    apk add rsync openssh-client
+
             - checkout
 
-            - add_ssh_keys:
-                fingerprints:
-                    - "3b:0e:79:7c:c2:3c:2d:d5:db:b4:85:b7:05:0c:ad:d1"
+            - run:
+                name: build-live
+                command: |
+                    chmod -R 777 ~/
+                    jekyll build
 
             - run:
-                name: build-deploy-live
+                name: deploy-live
                 command: |
-                    rsync -avz --delete -e 'ssh -p 53122 -o StrictHostKeyChecking=no' --omit-dir-times --exclude='.git/' --exclude='.gitignore' --exclude='.circleci/' . circleci@lon3.dustyservers.com:/var/www/henrycole.uk/html/;
+                    rsync -avz --delete -e 'ssh -p 53122 -o StrictHostKeyChecking=no' --omit-dir-times --exclude='.git/' --exclude='.gitignore' --exclude='.circleci/' _site/. circleci@lon3.dustyservers.com:/var/www/henrycole.uk/html/;
 
-    build-staging-old:
-        docker:
-            - image: ubuntu
-        steps:
-            - run:
-                name: build-dependencies
-                command: |
-                    apt update;
-                    apt install -y git rsync;
-        
-            - checkout
-
-            - add_ssh_keys:
-                fingerprints:
-                    - "12:ba:6c:bd:95:18:47:94:b2:0f:38:38:16:43:f3:a5"
-
-            - run:
-                name: build-deploy-staging
-                command: |
-                    ssh -p 53122 -o StrictHostKeyChecking=no circleci@lon11.dustyservers.com 'docker-compose -f /etc/docker/services/henry-personal-website-staging/docker-compose.yml rm henry-personal-website-staging'
-                    rsync -avz --delete -e 'ssh -p 53122 -o StrictHostKeyChecking=no' .docker-compose/staging-docker-compose.yml circleci@lon11.dustyservers.com:/etc/docker/services/henry-personal-website-staging/docker-compose.yml;
-                    rsync -avz --delete -e 'ssh -p 53122 -o StrictHostKeyChecking=no' --omit-dir-times --exclude='.git/' --exclude=".docker-compose/" --exclude='.gitignore' --exclude='.circleci/' . circleci@lon11.dustyservers.com:/etc/docker/services/henry-personal-website-staging/srv/;
-                    ssh -p 53122 -o StrictHostKeyChecking=no circleci@lon11.dustyservers.com 'docker-compose -f /etc/docker/services/henry-personal-website-staging/docker-compose.yml up -d --force-recreate'
     build-staging:
         docker:
             - image: jekyll/jekyll:latest
@@ -78,5 +57,10 @@ workflows:
                     branches:
                         only: 
                             - main
-            - build-staging
+            - build-staging:
+                filters:
+                    branches:
+                        only:
+                            - main
+                            - staging
 
