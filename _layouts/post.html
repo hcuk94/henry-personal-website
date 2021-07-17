@@ -5,7 +5,5 @@ layout: default
     <a href="/" class="text-muted text-decoration-none">← Homepage</a>
     <h2>{{ page.title }}</h2>
     {{ content }}
-    <div class="date">
-        Written on {{ page.date | date: "%B %e, %Y" }}
-    </div>
+    <p class="text-muted">Written on {{ page.date | date: "%B %e, %Y" }}</p>
 </div>
