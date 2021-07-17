@@ -54,11 +54,15 @@ jobs:
                 command: |
                     apk update;
                     apk add rsync
+
             - checkout
+
             - run:
                 name: build-staging
                 command: |
+                    chmod -R 777 ~/
                     jekyll build --drafts
+
             - run:
                 name: deploy-staging
                 command: |
