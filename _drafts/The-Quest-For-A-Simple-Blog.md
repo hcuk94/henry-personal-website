@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Building a basic personal blog using Jekyll
+title: Building a Basic Personal Blog using Jekyll
 excerpt: A rough overview of how I built this very website using Jekyll, Bootstrap, Nginx & CircleCI
 ---
 
