@@ -8,9 +8,10 @@ layout: default
       {% for post in site.posts %}
         <article class="post">
           <h3><a href="{{ site.baseurl }}{{ post.url }}" class="text-reset text-decoration-none">{{ post.title }}</a></h3>
-          <p>{{ post.excerpt }}</p>
           <p class="text-muted">{{ post.date | date: "%-d %B %Y"}}</p>
+          <p>{{ post.excerpt }}</p>
+          <a class="text-muted text-decoration-none" href="{{ site.baseurl }}{{ post.url }}">Read ➔</a>
         </article>
       {% endfor %}
     </div>
-    </div>
+</div>
