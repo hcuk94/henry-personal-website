@@ -23,18 +23,20 @@ The goal is to be able to use VS Code on my MacBook to edit my blog, and all I n
 
 ### Building Site Structure
 Roughly speaking Jekyll uses the following structure:
-`_drafts/`
-`    |___Draft-Blog-Post.md`
-`_includes/`
-`    |___header.html`
-`    |___footer.html`
-`_layouts/`
-`    |___default.html`
-`    |___post.html`
-`_posts/`
-`    |___2021-07-15-Published-Blog-Post.md`
-`_config.yml`
-`index.html`
+```
+    _drafts/
+        |___Draft-Blog-Post.md
+    _includes/
+        |___header.html
+        |___footer.html
+    _layouts/
+        |___default.html
+        |___post.html
+    _posts/
+        |___2021-07-15-Published-Blog-Post.md
+    _config.yml
+    index.html
+```
 
 Most of the site HTML goes in the header.html and footer.html includes. This gives us the basic structure of the site.
 The _layouts/ folder then contains a 'type' of page or post for example. I've gone for default (homepage) and post (blog posts).
