@@ -104,18 +104,7 @@ In my spare time I like travelling, visiting quirky pubs, and tinkering with per
 </div></div>
 </div>
 <!-- Blog -->
-<div class="row">
-<h2 class="mt-4">Blog</h2>
-<div class="posts">
-  {% for post in site.posts %}
-    <article class="post">
-      <h3><a href="{{ site.baseurl }}{{ post.url }}" class="text-reset text-decoration-none">{{ post.title }}</a></h3>
-      <p>{{ post.excerpt }}</p>
-      <p class="text-muted">{{ post.date | date: "%-d %B %Y"}}</p>
-    </article>
-  {% endfor %}
-</div>
-</div>
+{% include blog_cards.html %}
 <!-- Contact -->
 <div class="row">
 <h2 class="mt-4">Contact Me</h2>
