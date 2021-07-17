@@ -60,7 +60,7 @@ jobs:
             - run:
                 name: build-staging
                 command: |
-                    chmod -R 755 ~/
+                    chmod -R 777 ~/
                     jekyll build --drafts
 
             - run:
