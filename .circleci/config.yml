@@ -53,7 +53,7 @@ jobs:
                 name: dependencies-staging
                 command: |
                     apk update;
-                    apk add rsync
+                    apk add rsync ssh
 
             - checkout
 
