@@ -53,14 +53,14 @@ jobs:
                 name: dependencies-staging
                 command: |
                     apk update;
-                    apk add rsync ssh
+                    apk add rsync openssh-client
 
             - checkout
 
             - run:
                 name: build-staging
                 command: |
-                    chmod -R 777 ~/
+                    chmod -R 755 ~/
                     jekyll build --drafts
 
             - run:
