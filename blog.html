@@ -9,7 +9,7 @@ layout: default
         <article class="post mt-4">
           <h3><a href="{{ site.baseurl }}{{ post.url }}" class="text-reset text-decoration-none">{{ post.title }}</a></h3>
           <p class="text-muted">{{ post.date | date: "%-d %B %Y"}}</p>
-          <p class="p-0">{{ post.excerpt }}</p>
+          <p class="py-0">{{ post.excerpt }}</p>
           <a class="text-muted text-decoration-none" href="{{ site.baseurl }}{{ post.url }}">Read ➔</a>
         </article>
       {% endfor %}
