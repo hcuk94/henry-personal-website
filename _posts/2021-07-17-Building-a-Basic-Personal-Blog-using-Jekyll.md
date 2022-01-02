@@ -120,3 +120,21 @@ So we have 2 build sequences in our CircleCI config; one for live and one for st
 These are mostly identical, using the Jekyll Docker image (the same one you can use to run the website) to build the files, then using *rsync* to copy the files to my *nginx* server via SSH.
 
 One noteworthy difference between the live and staging build sequences, is that in staging we run ```jekyll build --drafts```. The *--drafts* flag tells Jekyll that this is a staging site, so it should include blog posts in the _drafts folder, not just the ones that have been published with a date.
+
+### Creating & Updating
+The only other thing that's needed to make this work is something to serve the files.
+
+I'm using *nginx* for this; I won't go into the details because it is really just a bog standard nginx config, pointing to the directory where my CircleCI workflow moves the Jekyll files.
+
+There are many options for how to serve this content, ultimately it is static HTML so it can be kept pretty simple. Sticking the files in a bucket on your *favourite cloud provider*™ would be one, or even using [GitHub Pages](https://pages.github.com/), which will host Jekyll free of charge.
+
+With all this set up, updating the blog is simply a matter of editing the component HTML or Markdown files, and committing to GitHub. The site will then be updated within a minute.
+
+### Limitations
+Keeping things this simple isn't without its limitations of course.
+
+The main thing I feel is missing right now is the ability to comment on blog posts - this is something that does have a number of plausible options, but I've not yet put aside the time to investigate these. If I do find a suitable solution, I'll update this blog post to reflect this.
+
+In the meantime, I'd love to hear comments or questions, so if you have anything to add, please get in touch with me using the various options shown on this site.
+
+Thanks for reading!
