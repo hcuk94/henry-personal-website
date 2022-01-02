@@ -27,7 +27,7 @@ So we finally have it - consistent ~60mbps internet over 4G. Unlimited data allo
 
 Here's a video of the loft-installed setup in its finished state:
 
-<video muted>
+<video width="100%" muted controls>
   <source src="/img/blog/2021-12/4g-loft-tour.webm" type="video/webm">
 Your browser does not support this video.
 </video> 
