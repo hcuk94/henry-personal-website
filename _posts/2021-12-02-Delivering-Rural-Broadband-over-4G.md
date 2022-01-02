@@ -15,6 +15,8 @@ I explored the Wireless ISP locally, and more recently I've explored Elon Musk's
 
 Having tested the 4G option, I got a very respectable 60mbps from Three, on a £17/month contract with unlimited data. Pretty good. I had to do some investment in an external antenna and get the placement right, but once it was in place it provided great speeds.
 
+<img src="/img/blog/2021-12/three-data-usage.png" alt="Three data usage" class="post-img">
+
 This was the ideal solution until a couple of years ago, when Three decided to upgrade another, geographically closer mast from 3G to 4G. This seems great in principle; but the issue is with the uplink to internet behind that mast - which I can only assume is on the same exchange as the house - i.e. very slow. My parents' connection trickled down to 9mbps, which, while significantly better than the DSL speeds, was getting easily hammered by streaming services.
 
 Since that happened, forcing my ISP-supplied Huawei modem to 4G-only was no longer enough to cling onto the much faster mast, which is geographically further away. Instead, it was pretty much always using the slower, closer one.
