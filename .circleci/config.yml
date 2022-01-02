@@ -27,13 +27,11 @@ jobs:
     build-staging:
         docker:
             - image: jekyll/jekyll:latest
+              environment:
+                SERVER_DOMAIN: $SERVER_NAME
+                SERVER_PATH: $STAGING_PATH
+                SERVER_PORT: $SSH_PORT
         steps:
-            - run:
-                name: Set env vars
-                command: |
-                    echo SERVER_DOMAIN="$SERVER_NAME" >> "${BASH_ENV}"
-                    echo SERVER_PATH="$STAGING_PATH" >> "${BASH_ENV}"
-                    echo SERVER_PORT="$SSH_PORT" >> "${BASH_ENV}"
             - run:
                 name: dependencies-staging
                 command: |
