@@ -22,7 +22,7 @@ jobs:
             - run:
                 name: deploy-live
                 command: |
-                    rsync -avz --delete -e 'ssh -p 53122 -o StrictHostKeyChecking=no' --omit-dir-times --exclude='.git/' --exclude='.gitignore' --exclude='.circleci/' _site/. circleci@lon3.dustyservers.com:/var/www/henrycole.uk/html/;
+                    rsync -avz --delete -e 'ssh -p $SSH_PORT -o StrictHostKeyChecking=no' --omit-dir-times --exclude='.git/' --exclude='.gitignore' --exclude='.circleci/' _site/. circleci@$SERVER_NAME:$PROD_PATH;
 
     build-staging:
         docker:
@@ -45,7 +45,7 @@ jobs:
             - run:
                 name: deploy-staging
                 command: |
-                    rsync -avz --delete -e 'ssh -p 53122 -o StrictHostKeyChecking=no' --omit-dir-times --exclude='.git/' --exclude='.gitignore' --exclude='.circleci/' _site/. circleci@lon3.dustyservers.com:/var/www/staging.henrycole.uk/html/;
+                    rsync -avz --delete -e 'ssh -p $SSH_PORT -o StrictHostKeyChecking=no' --omit-dir-times --exclude='.git/' --exclude='.gitignore' --exclude='.circleci/' _site/. circleci@$SERVER_NAME:$STAGING_PATH;
 
  
 

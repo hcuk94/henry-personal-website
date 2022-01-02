@@ -51,4 +51,5 @@ Then, at the top of each markdown or HTML file, you simply start the file with t
 ```
 ...and put your content underneath. Jekyll will do the rest, creating static HTML pages for your blog posts, homepage, etc, showing a list of your blog posts where you have chosen to do so.
 
-One day I'll put some more text here...
+### Deployment Flow in GitHub & CircleCI
+So we have the basic
