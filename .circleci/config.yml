@@ -25,19 +25,15 @@ jobs:
                     rsync -avz --delete -e 'ssh -p 53122 -o StrictHostKeyChecking=no' --omit-dir-times --exclude='.git/' --exclude='.gitignore' --exclude='.circleci/' _site/. circleci@${SERVER_NAME}:${PROD_PATH};
 
     build-staging:
-        parameters:
-            server-name:
-                type: env_var_name
-                default: $SERVER_NAME
-            ssh-port:
-                type: env_var_name
-                default: $SSH_PORT
-            server-path:
-                type: env_var_name
-                default: $STAGING_PATH
         docker:
             - image: jekyll/jekyll:latest
         steps:
+            - run:
+                name: Set env vars
+                command: |
+                    echo SERVER_DOMAIN="$SERVER_NAME" >> "${BASH_ENV}"
+                    echo SERVER_PATH="$STAGING_PATH" >> "${BASH_ENV}"
+                    echo SERVER_PORT="$SSH_PORT" >> "${BASH_ENV}"
             - run:
                 name: dependencies-staging
                 command: |
@@ -55,7 +51,7 @@ jobs:
             - run:
                 name: deploy-staging
                 command: |
-                    rsync -avz --delete -e 'ssh -p ${<< parameters.ssh-port >>} -o StrictHostKeyChecking=no' --omit-dir-times --exclude='.git/' --exclude='.gitignore' --exclude='.circleci/' _site/. circleci@${<< parameters.server-name >>}:${<< parameters.server-path >>};
+                    rsync -avz --delete -e 'ssh -p $SERVER_PORT -o StrictHostKeyChecking=no' --omit-dir-times --exclude='.git/' --exclude='.gitignore' --exclude='.circleci/' _site/. circleci@$SERVER_DOMAIN:$SERVER_PATH;
 
  
 
