@@ -51,5 +51,72 @@ Then, at the top of each markdown or HTML file, you simply start the file with t
 ```
 ...and put your content underneath. Jekyll will do the rest, creating static HTML pages for your blog posts, homepage, etc, showing a list of your blog posts where you have chosen to do so.
 
+I won't go into further detail around my Jekyll setup, it really is super simple, and Jekyll have great documentation so it's easy to get started. 
+
 ### Deployment Flow in GitHub & CircleCI
-So we have the basic
+I wanted to avoid having to log in and run ```jekyll build``` every time I updated the site, so I figured I'd use CircleCI to run this part for me.
+
+Provided the code is in GitHub, its easy to set up a CircleCI project to go with it. I can log in with GitHub and set up a config file that looks something like this:
+```
+version: 2.1
+jobs:
+    build-live:
+        docker:
+            - image: jekyll/jekyll:latest
+        steps:
+            - run:
+                name: dependencies-live
+                command: |
+                    apk update;
+                    apk add rsync openssh-client
+            - checkout
+            - run:
+                name: build-live
+                command: |
+                    jekyll build
+            - run:
+                name: deploy-live
+                command: |
+                    rsync -avz --delete -e 'ssh' --omit-dir-times --exclude='.git/' --exclude='.gitignore' --exclude='.circleci/' _site/. circleci@mywebserver:/path/to/live/site/;
+
+    build-staging:
+        docker:
+            - image: jekyll/jekyll:latest
+        steps:
+            - run:
+                name: dependencies-staging
+                command: |
+                    apk update;
+                    apk add rsync openssh-client
+            - checkout
+            - run:
+                name: build-staging
+                command: |
+                    jekyll build --drafts
+            - run:
+                name: deploy-staging
+                command: |
+                    rsync -avz --delete -e 'ssh' --omit-dir-times --exclude='.git/' --exclude='.gitignore' --exclude='.circleci/' _site/. circleci@mywebserver:/path/to/staging/site/;
+
+workflows:
+    do-build:
+        jobs:
+            - build-live:
+                filters:
+                    branches:
+                        only: 
+                            - main
+            - build-staging:
+                filters:
+                    branches:
+                        only:
+                            - main
+                            - staging
+
+
+```
+
+So we have 2 build sequences in our CircleCI config; one for live and one for staging.
+These are mostly identical, using the Jekyll Docker image (the same one you can use to run the website) to build the files, then using *rsync* to copy the files to my *nginx* server via SSH.
+
+One noteworthy difference between the live and staging build sequences, is that in staging we run ```jekyll build --drafts```. The *--drafts* flag tells Jekyll that this is a staging site, so it should include blog posts in the _drafts folder, not just the ones that have been published with a date.
