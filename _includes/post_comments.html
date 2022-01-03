@@ -1,4 +1,4 @@
-{% if page.comments == true %}
+{% if post.comments == true %}
   <section class="post__comments">
     {% if site.repository and site.staticman.branch %}
       {% if site.data.comments[page.slug] %}
