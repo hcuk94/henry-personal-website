@@ -22,3 +22,9 @@ plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-seo-tag
+staticman:
+  branch: main
+  repo: henry-personal-website
+  git_provider: github
+  git_provider_username: hcuk94
+  staticman_base_url: https://staticman.henrycole.uk
