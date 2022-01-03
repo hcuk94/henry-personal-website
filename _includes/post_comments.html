@@ -53,17 +53,19 @@
         <fieldset>
         <button type="submit" id="comment-form-submit" class="btn btn-secondary">Submit Comment</button>
         </fieldset>
-        <div role="progressbar" id="comment-form-submitting" hidden><img width="50px" height="50px" src="/img/spinner.gif" style="display: inline;" alt="loading spinner" /></div>
     </div>
+  </form>
     <!-- Comment form response messages -->
+    <div role="progressbar" id="comment-form-submitting" hidden><img width="50px" height="50px" src="/img/spinner.gif" style="display: inline;" alt="loading spinner" /></div>
     <div id="comment-form-success" class="alert alert-success" hidden>Thank you for your comment. It will be visible on this page in a few minutes' time..</div>
     <div id="comment-form-error" class="alert alert-danger" hidden>Sorry, there was an error with your submission.</strong> Please make sure all required fields have been completed and try again.</div>
-  </form>
   <script>
     document.getElementById('comment-form').onsubmit = e => {
       e.preventDefault();
     
       let form = document.getElementById('comment-form');
+
+      form.hidden = true;
     
       document.getElementById('comment-form-submitting').hidden = false;
     
