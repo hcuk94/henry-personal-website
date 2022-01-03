@@ -1,2 +1,5 @@
 # Config for Henry Cole Personal Website #
 name: Henry Cole
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
