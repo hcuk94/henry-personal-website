@@ -37,12 +37,6 @@
         <input class="form-control" type="url" id="comment-form-url" name="fields[url]"/>
         </fieldset>
     </div>
-    <div class="mb-3">
-        <fieldset>
-            <label class="form-label" for="comment-form-message">Comment</label>
-            <textarea class="form-control" type="text" rows="3" id="comment-form-message" name="fields[message]"></textarea>
-        </fieldset>
-    </div>
     <fieldset class="hidden" style="display: none;">
       <!-- used by Staticman to generate filenames for each comment -->
       <input type="hidden" name="options[slug]" value="{{ page.slug }}">
@@ -50,6 +44,12 @@
       <label class="form-label" for="comment-form-location">Not used. Leave blank if you are a human.</label>
       <input type="text" id="comment-form-location" name="fields[hidden]" autocomplete="off"/>
     </fieldset>
+    <div class="mb-3">
+        <fieldset>
+            <label class="form-label" for="comment-form-message">Comment</label>
+            <textarea class="form-control" type="text" rows="3" id="comment-form-message" name="fields[message]"></textarea>
+        </fieldset>
+    </div>
     <div class="mb-3">
         <fieldset>
         <button type="submit" id="comment-form-submit" class="btn btn-secondary">Submit Comment</button>
