@@ -16,7 +16,7 @@ comments:
   branch: "main"
 
   # Text to use as the commit message or pull request title. Accepts placeholders.
-  commitMessage: "Add Staticman data"
+  commitMessage: "New comment added on blog post"
 
   # (*) REQUIRED
   #
@@ -56,12 +56,12 @@ comments:
     # (!) ENCRYPTED
     #
     # Mailgun API key
-    #apiKey: "1q2w3e4r"
+    #apiKey: ""
 
     # (!) ENCRYPTED
     #
     # Mailgun domain (encrypted)
-    #domain: "4r3e2w1q"
+    #domain: ""
 
   # (*) REQUIRED
   #
