@@ -6,11 +6,11 @@
             </div>
             <div class="col">
                 <h5 class="card-title" itemprop="author" itemscope itemtype="http://schema.org/Person">
-                    {% if include.url != blank %}
+                    {% unless include.url == blank or include.url == "" or include.url == nil %}
                     <a rel="nofollow" href="{{ include.url }}" class="text-decoration-none text-reset"><span itemprop="name">{{ include.name }}</span></a>
                     {% else %}
                     <span itemprop="name">{{ include.name }}</span>
-                    {% endif %}
+                    {% endunless %}
                 </h5>
                 <h6 class="card-subtitle mb-2 text-muted">
                     {% if include.date %}
