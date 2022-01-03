@@ -61,6 +61,5 @@ workflows:
                 filters:
                     branches:
                         only:
-                            - main
                             - staging
 
