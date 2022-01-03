@@ -2,24 +2,17 @@
     <div class="container mt-3">
         <div class="row">
             <div class="col-2 col-md-1">
-                <div class="comment__avatar-wrapper">
-                {% if include.avatar %}
-                    <img class="comment__avatar" src="{{ include.avatar }}" alt="{{ include.name }}" height="50" width="50">
-                {% else %}
-                    <img class="comment__avatar" src="https://www.gravatar.com/avatar/{{ include.email }}?d=mm&s=50" srcset="https://www.gravatar.com/avatar/{{ include.email }}?d=mm&s=100 2x" alt="{{ include.name }}" height="50" width="50">
-                {% endif %}
-                </div>
+                <img class="comment__avatar" src="https://www.gravatar.com/avatar/{{ include.email }}?d=mm&s=50" srcset="https://www.gravatar.com/avatar/{{ include.email }}?d=mm&s=100 2x" alt="{{ include.name }}" height="50" width="50">
             </div>
             <div class="col">
-                <div class="comment__content-wrapper">
-                <h5 class="comment__author card-title" itemprop="author" itemscope itemtype="http://schema.org/Person">
-                    {% unless include.url == blank %}
+                <h5 class="card-title" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                    {% if include.url != blank %}
                     <a rel="nofollow" href="{{ include.url }}" class="text-decoration-none text-reset"><span itemprop="name">{{ include.name }}</span></a>
                     {% else %}
                     <span itemprop="name">{{ include.name }}</span>
                     {% endunless %}
                 </h5>
-                <h6 class="comment__date card-subtitle mb-2 text-muted">
+                <h6 class="card-subtitle mb-2 text-muted">
                     {% if include.date %}
                     {% if include.index %}<a href="#comment{{ include.index }}" itemprop="url" class="text-decoration-none text-reset">{% endif %}
                     <time datetime="{{ include.date | date_to_xmlschema }}" itemprop="datePublished">{{ include.date | date: "%B %d, %Y at %I:%M %p" }}</time>
@@ -27,7 +20,6 @@
                     {% endif %}
                 </h6>
                 <p itemprop="text" class="card-text">{{ include.message | markdownify }}</p>
-                </div> 
             </div>
         </div>
     </div>

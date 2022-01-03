@@ -1,21 +1,21 @@
+  <!-- Comments Block -->
   <section class="post__comments">
       {% if site.data.comments[page.slug] %}
-        <!-- Start static comments -->
         <div id="comments" class="js-comments mb-4">
           <h3 class="tile__header">Comments</h3>
           {% assign comments = site.data.comments[page.slug] | sort %}
           {% for comment in comments %}
-            {% assign avatar = comment[1].avatar %}
             {% assign email = comment[1].email %}
             {% assign name = comment[1].name %}
             {% assign url = comment[1].url %}
             {% assign date = comment[1].date %}
             {% assign message = comment[1].message %}
-            {% include comment.html index=forloop.index avatar=avatar email=email name=name url=url date=date message=message %}
+            {% include comment.html index=forloop.index email=email name=name url=url date=date message=message %}
           {% endfor %}
         </div>
-        <!-- End static comments -->
       {% endif %}
+
+<!-- Leave a Comment Form -->
 <h3>Leave a Comment</h3>
 <p>You can leave a public comment below, or alternatively <a href="/#contact" class="text-decoration-none text-muted">get in touch with me direct</a> if you'd prefer.</p>
 <form id="comment-form" method="post" action="{{ site.staticman.endpoint }}{{ site.repository }}/{{ site.staticman.branch }}">
@@ -40,7 +40,7 @@
     <fieldset class="hidden" style="display: none;">
       <!-- used by Staticman to generate filenames for each comment -->
       <input type="hidden" name="options[slug]" value="{{ page.slug }}">
-      <!-- honey pot used to filter out spam -->
+      <!-- honeypot used to filter out spam -->
       <label class="form-label" for="comment-form-location">Not used. Leave blank if you are a human.</label>
       <input type="text" id="comment-form-location" name="fields[hidden]" autocomplete="off"/>
     </fieldset>
@@ -60,7 +60,9 @@
     <div role="progressbar" id="comment-form-submitting" hidden><img width="50px" height="50px" src="/img/spinner.gif" style="display: inline;" alt="loading spinner" /></div>
     <div id="comment-form-success" class="alert alert-success" hidden>Thank you for your comment. It will be visible on this page in a few minutes' time.</div>
     <div id="comment-form-error" class="alert alert-danger" hidden>Sorry, there was an error with your submission.</strong> Please make sure all required fields have been completed and try again.</div>
-  <script>
+ 
+ <!-- JS to handle comment form submission via Staticman API -->
+ <script>
     document.getElementById('comment-form').onsubmit = e => {
       e.preventDefault();
     
@@ -99,5 +101,4 @@
       });
     }
     </script>
-  <!-- End comment form -->
 </section>
