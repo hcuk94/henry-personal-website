@@ -1,4 +1,6 @@
-<article id="comment{{ include.index }}" class="js-comment comment" itemprop="comment" itemscop itemtype="http://schema.org/Comment">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+<article id="comment{{ include.index }}" class="js-comment comment card" itemprop="comment" itemscop itemtype="http://schema.org/Comment">
     <div class="comment__avatar-wrapper">
       {% if include.avatar %}
         <img class="comment__avatar" src="{{ include.avatar }}" alt="{{ include.name }}" height="50" width="50">
@@ -7,21 +9,21 @@
       {% endif %}
     </div>
     <div class="comment__content-wrapper">
-      <h3 class="comment__author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <h5 class="comment__author card-title" itemprop="author" itemscope itemtype="http://schema.org/Person">
         {% unless include.url == blank %}
           <a rel="nofollow" href="{{ include.url }}"><span itemprop="name">{{ include.name }}</span></a>
         {% else %}
           <span itemprop="name">{{ include.name }}</span>
         {% endunless %}
-      </h3>
-      <div class="comment__date">
+      </h5>
+      <h6 class="comment__date card-subtitle mb-2 text-muted">
         {% if include.date %}
           {% if include.index %}<a href="#comment{{ include.index }}" itemprop="url">{% endif %}
           <time datetime="{{ include.date | date_to_xmlschema }}" itemprop="datePublished">{{ include.date | date: "%B %d, %Y at %I:%M %p" }}</time>
           {% if include.index %}</a>{% endif %}
         {% endif %}
-      </div>
-      <div itemprop="text">{{ include.message | markdownify }}</div>
+          </h6>
+      <p itemprop="text" class="card-text">{{ include.message | markdownify }}</p>
     </div>
   </article>
   
