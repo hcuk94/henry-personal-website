@@ -1,6 +1,4 @@
-{% if post.comments == true %}
   <section class="post__comments">
-    {% if site.repository and site.staticman.branch %}
       {% if site.data.comments[page.slug] %}
         <!-- Start static comments -->
         <div id="comments" class="js-comments">
@@ -101,6 +99,4 @@
     }
     </script>
   <!-- End comment form -->
-  {% endif %}
 </section>
-{% endif %}
