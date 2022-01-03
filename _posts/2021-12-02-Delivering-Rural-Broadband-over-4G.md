@@ -31,6 +31,7 @@ Here's a video of the loft-installed setup in its finished state:
 
 <video width="75%" muted controls>
   <source src="/img/blog/2021-12/4g-loft-tour.webm" type="video/webm">
+  <source src="/img/blog/2021-12/4g-loft-tour.mp4" type="video/mp4">
 Your browser does not support this video.
 </video> 
 
