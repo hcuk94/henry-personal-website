@@ -3,7 +3,7 @@
 <article id="comment{{ include.index }}" class="js-comment comment card" itemprop="comment" itemscop itemtype="http://schema.org/Comment">
     <div class="container">
         <div class="row">
-            <div class="col">
+            <div class="col-1">
     <div class="comment__avatar-wrapper">
       {% if include.avatar %}
         <img class="comment__avatar" src="{{ include.avatar }}" alt="{{ include.name }}" height="50" width="50">
@@ -12,7 +12,7 @@
       {% endif %}
     </div>
 </div>
-<div class="col">
+<div class="col-11">
     <div class="comment__content-wrapper">
       <h5 class="comment__author card-title" itemprop="author" itemscope itemtype="http://schema.org/Person">
         {% unless include.url == blank %}
