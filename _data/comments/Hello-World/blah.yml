@@ -5,11 +5,15 @@ url: ''
 message: |-
   Hello,
   This is a test message.
-  It has single line breaks.
-  And double ones too.
+  ### Header 3
+  It has **bold** text and _italic_ too.
+  Here's an HTML line break: <br/>
+  [This is a link!](https://google.com)
   ```
   It even has some markdown
   ```
+  Let's see how it looks!
+  
   Thanks
   Henry
 hidden: ''
