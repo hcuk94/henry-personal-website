@@ -1,5 +1,24 @@
 # Config for Henry Cole Personal Website #
 name: Henry Cole
+title: Henry Cole
+description: I'm a systems analyst from London, and this is my personal website and blog. Enjoy!
+url: https://www.henrycole.uk/
+author:
+  name: Henry Cole
+  twitter: henrycole
+  url: https://www.henrycole.uk/
+twitter:
+  username: henrycole
+  card: summary
+logo: /img/henry-profile.jpg
+social:
+  links:
+    - https://twitter.com/henrycole
+    - https://www.facebook.com/hcuk94
+    - https://www.linkedin.com/in/henry-cole-52551823/
+    - https://github.com/hcuk94
+    - https://www.instagram.com/henrycole/
+    - https://www.last.fm/user/hcuk94
 plugins:
   - jekyll-feed
   - jekyll-sitemap
