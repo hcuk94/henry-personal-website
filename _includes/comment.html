@@ -26,11 +26,9 @@
                     {% if include.index %}</a>{% endif %}
                     {% endif %}
                 </h6>
+                <p itemprop="text" class="card-text">{{ include.message | markdownify }}</p>
                 </div> 
             </div>
-        </div>
-        <div class="row">
-            <p itemprop="text" class="card-text">{{ include.message | markdownify }}</p>
         </div>
     </div>
   </article>
