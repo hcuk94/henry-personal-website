@@ -1,0 +1,83 @@
+<!--
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+-->
+<form id="comment-form" method="post" action="{{ site.staticman.endpoint }}{{ site.repository }}/{{ site.staticman.branch }}">
+    <div class="mb-3">
+        <fieldset>
+        <label class="form-label" for="comment-form-name">Name</label>
+        <input class="form-control" type="text" id="comment-form-name" name="fields[name]"/>
+        </fieldset>
+    </div>
+    <div class="mb-3">
+        <fieldset>
+        <label class="form-label" for="comment-form-email">Email address</label>
+        <input class="form-control" type="email" id="comment-form-email" name="fields[email]"/>
+        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </fieldset>
+    </div>
+    <div class="mb-3">
+        <fieldset>
+        <label class="form-label" for="comment-form-url">Website (optional)</label>
+        <input class="form-control" type="url" id="comment-form-url" name="fields[url]"/>
+        </fieldset>
+    </div>
+    <div class="mb-3">
+        <fieldset>
+            <label class="form-label" for="comment-form-message">Comment</label>
+            <textarea class="form-control" type="text" rows="3" id="comment-form-message" name="fields[message]"></textarea>
+        </fieldset>
+    </div>
+    <fieldset class="hidden" style="display: none;">
+      <!-- used by Staticman to generate filenames for each comment -->
+      <input type="hidden" name="options[slug]" value="{{ page.slug }}">
+      <!-- honey pot used to filter out spam -->
+      <label class="form-label" for="comment-form-location">Not used. Leave blank if you are a human.</label>
+      <input type="text" id="comment-form-location" name="fields[hidden]" autocomplete="off"/>
+    </fieldset>
+    <div class="mb-3">
+        <fieldset>
+        <button type="submit" id="comment-form-submit" class="btn btn-secondary">Submit Comment</button>
+        </fieldset>
+        <div role="progressbar" id="comment-form-submitting" hidden><img src="/img/spinner.gif" style="display: inline;" alt="loading spinner" /></div>
+    </div>
+    <!-- Comment form response messages -->
+    <div id="comment-form-success" class="alert alert-success" hidden>Thank you for your comment. It will appear on the site in a few mins' time.</div>
+    <div id="comment-form-error" class="alert alert-danger" hidden>Sorry, there was an error with your submission.</strong> Please make sure all required fields have been completed and try again.</div>
+  </form>
+  <script>
+    document.getElementById('comment-form').onsubmit = e => {
+      e.preventDefault();
+    
+      let form = document.getElementById('comment-form');
+    
+      form.hidden = true;
+      document.getElementById('comment-form-submitting').hidden = false;
+    
+      let formData = new FormData(form);
+      let params = new URLSearchParams(formData).toString();
+    
+      fetch('https://staticman.henrycole.uk/v3/entry/github/hcuk94/henry-personal-website/main/comments', {
+        method: 'post',
+        credentials: 'include',
+        headers: {
+          'accept': '*/*',
+          'accept-language': 'en-US,en;q=0.9',
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+        body: params,
+        mode: 'cors',
+        credentials: 'omit'
+      }).then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok:' + response.statusText);
+        }
+        document.getElementById('comment-form-submitting').hidden = true;
+        document.getElementById('comment-form-success').hidden = false;
+      }).catch(err => {
+        console.log(err);
+        document.getElementById('comment-form-submitting').hidden = true;
+        document.getElementById('comment-form-error').hidden = false;
+      });
+    }
+    </script>
+  <!-- End new comment form -->
