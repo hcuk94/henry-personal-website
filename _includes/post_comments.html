@@ -56,7 +56,7 @@
         <div role="progressbar" id="comment-form-submitting" hidden><img width="50px" height="50px" src="/img/spinner.gif" style="display: inline;" alt="loading spinner" /></div>
     </div>
     <!-- Comment form response messages -->
-    <div id="comment-form-success" class="alert alert-success" hidden>Thank you for your comment. It will be visible on this page in a few minutes' time..{{site.staticman.base_url}}</div>
+    <div id="comment-form-success" class="alert alert-success" hidden>Thank you for your comment. It will be visible on this page in a few minutes' time..</div>
     <div id="comment-form-error" class="alert alert-danger" hidden>Sorry, there was an error with your submission.</strong> Please make sure all required fields have been completed and try again.</div>
   </form>
   <script>
@@ -70,7 +70,7 @@
       let formData = new FormData(form);
       let params = new URLSearchParams(formData).toString();
     
-      fetch('http://lon11.dustyservers.com:3000/v2/entry/{{site.staticman.git_provider_username}}/{{site.staticman.repo}}/{{site.staticman.branch}}/comments', {
+      fetch('{{site.staticman.base_url}}/v2/entry/{{site.staticman.git_provider_username}}/{{site.staticman.repo}}/{{site.staticman.branch}}/comments', {
         method: 'post',
         credentials: 'include',
         headers: {
