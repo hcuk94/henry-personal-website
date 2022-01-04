@@ -2,7 +2,7 @@
 # I have removed all further comments. Refer to Staticman docs to understand these options.
 
 # Staging
-comments:
+comments-staging:
   branch: "staging"
   allowedFields: ["name", "email", "url", "message"]
   requiredFields: ["name", "email", "message"]
