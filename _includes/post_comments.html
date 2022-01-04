@@ -76,7 +76,7 @@
       let formData = new FormData(form);
       let params = new URLSearchParams(formData).toString();
     
-      fetch('{{site.staticman.base_url}}/v2/entry/{{site.staticman.git_provider_username}}/{{site.staticman.repo}}/{{site.staticman.branch}}/comments', {
+      fetch('{{site.staticman.base_url}}/v2/entry/{{site.staticman.git_provider_username}}/{{site.staticman.repo}}/{{site.branch}}/comments', {
         method: 'post',
         credentials: 'include',
         headers: {
