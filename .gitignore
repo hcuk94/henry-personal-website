@@ -11,7 +11,7 @@ _site/
 .jekyll-metadata
 
 # Staticman Comments
-_data/comments/*/*.md
+._data/comments/
 
 # PyCharm/IntelliJ
 *.idea/*
