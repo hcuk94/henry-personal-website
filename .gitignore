@@ -12,8 +12,8 @@ _data/
 .jekyll-metadata
 
 # Staticman Comments
-._data/comments/
-_data/comments/*/*.yml
+_data/comments/*
+entry*.yml
 
 # PyCharm/IntelliJ
 *.idea/*
