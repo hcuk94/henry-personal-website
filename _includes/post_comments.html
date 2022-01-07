@@ -2,9 +2,9 @@
   <section class="post__comments">
     {% if site.branch != "main" %}
      {% assign path = site.data.comments-{{ site.branch }}[page.slug] %}
-    {% endif %}
     {% else %}
     {% assign path = site.data.comments[page.slug] %}
+    {% endif %}
       {% if path %}
         <div id="comments" class="js-comments mb-4">
           <h3 class="tile__header">Comments</h3>
