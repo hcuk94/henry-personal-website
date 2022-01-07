@@ -1,11 +1,12 @@
 #
-# hnery-personal-website .gitignore file
+# henry-personal-website .gitignore file
 #
 
 # henry-personal-website
 
 # Jekyll
 _site/
+_data/
 .sass-cache/
 .jekyll-cache/
 .jekyll-metadata
