@@ -1,9 +1,14 @@
   <!-- Comments Block -->
   <section class="post__comments">
-      {% if site.data.comments{% if site.branch != "main" %}-{{ site.branch }}{% endif %}[page.slug] %}
+    {% if site.branch != "main" %}
+     {% assign path = site.data.comments-{{ site.branch }}[page.slug] %}
+    {% endif %}
+    {% else %}
+    {% assign path = site.data.comments[page.slug] %}
+      {% if path %}
         <div id="comments" class="js-comments mb-4">
           <h3 class="tile__header">Comments</h3>
-          {% assign comments = site.data.comments{% if site.branch != "main" %}-{{ site.branch }}{% endif %}[page.slug] | sort %}
+          {% assign comments = path | sort %}
           {% for comment in comments %}
             {% assign email = comment[1].email %}
             {% assign name = comment[1].name %}
