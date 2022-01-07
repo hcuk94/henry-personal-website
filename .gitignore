@@ -6,14 +6,9 @@
 
 # Jekyll
 _site/
-_data/
 .sass-cache/
 .jekyll-cache/
 .jekyll-metadata
-
-# Staticman Comments
-_data/comments/*
-entry*.yml
 
 # PyCharm/IntelliJ
 *.idea/*
