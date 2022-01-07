@@ -10,6 +10,9 @@ _site/
 .jekyll-cache/
 .jekyll-metadata
 
+# Staticman Comments
+_data/comments/*
+
 # PyCharm/IntelliJ
 *.idea/*
 out/
