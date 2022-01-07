@@ -17,7 +17,7 @@ comments-staging:
   moderation: false
   name: "staging.henrycole.uk"
   allowedOrigins: ["localhost", "staging.henrycole.uk"]
-  path: "_data/comments/{options.slug}"
+  path: "_data/comments-staging/{options.slug}"
   transforms:
     email: md5
 
