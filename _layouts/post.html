@@ -1,11 +1,11 @@
 ---
 layout: default
 ---
-<div class="row">
+<div class="row mb-4">
     <h2>{{ page.title }}</h2>
     <div class="post-content">{{ content }}</div>
     <p class="text-muted">Written on {{ page.date | date: "%B %e, %Y" }}</p>
 </div>
-<p class="text-center mt-3 mb-0"><small>Thanks for reading. Since my website is static HTML, I don't yet have any functionality for leaving a comment on blog posts.
-    However I'm still keen to hear from you, so please do <a href="/#contact" class="text-decoration-none text-muted">get in touch directly</a> if you've any comments or questions on this post.
-</small></p>
+<p class="text-center mt-3 mb-0">
+    {% include post_comments.html %}
+</p>

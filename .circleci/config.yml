@@ -37,6 +37,11 @@ jobs:
             - checkout
 
             - run:
+                name: copyconfig-staging
+                command: |
+                    cp _config.staging.yml _config.yml
+
+            - run:
                 name: build-staging
                 command: |
                     chmod -R 777 ~/
