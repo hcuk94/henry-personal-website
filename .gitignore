@@ -12,6 +12,7 @@ _site/
 
 # Staticman Comments
 ._data/comments/
+_data/comments/*/*.yml
 
 # PyCharm/IntelliJ
 *.idea/*
