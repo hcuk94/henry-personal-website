@@ -9,7 +9,7 @@ One of the noted limitations at the time was that I wasn't able to offer comment
 
 I never wanted this to be a permanent solution, and recently I finally got around to implementing comments. 
 
-## Why Staticman?
+## Why Staticman?
 
 I looked at a number of different solutions. Perhaps the most well known is Disqus, which has been around for years, and I understand is pretty easy to implement, with a bit of code you can add to any page to include their commenting widgets.
 
