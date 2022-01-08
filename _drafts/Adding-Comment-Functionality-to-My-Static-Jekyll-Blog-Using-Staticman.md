@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Adding Comment Functionality to my Static Jekyll Blog Using Staticman
-excerpt: ***complete me!***
+excerpt: ADD EXCERTP HERE
 comments: false
 ---
 
