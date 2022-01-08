@@ -27,9 +27,9 @@ As you can see from the above diagram, Staticman slots nicely into the existing 
 In the early days of Staticman it was exceptionally straightforward to use, since you would just configure your website to hit their hosted API. Sadly, since its popularity resulted in GitHub limits being hit, it can now only be self-hosted.
 This did make me think long and hard about whether it was the right solution; since having to run additional infrastructure would seem to go against the reason I wanted a static blog in the first place.
 
-Staticman do try to mitigate this by making it as easy as possible to deploy. It is a NodeJS application, but can be spun up pretty easily using Heroku (Staticman's recommended approach if you're not used to running applications).
+Staticman do try to mitigate this by making it as easy as possible to deploy. It is a NodeJS application, but can be spun up pretty easily using Heroku (Staticman's recommended approach if you're not used to running applications) or Docker. I imagine it would also be relatively straight forward to deploy as an API using your *favourite cloud provider*™.
 
-I opted for the Docker image though, since I already run Docker hosts and had some spare capacity to run an additional container for Staticman.
+I opted for the Docker image, since I already run Docker hosts and had some spare capacity to run an additional container for Staticman.
 
 ## Step 1 - Creating a GitHub Application and Deploying Staticman
 Whether you opt for a simple NodeJS runtime, or using Heroku or Docker, it is pretty simple to get Staticman up and running, because most of the configuration is handled in the remote repository.
@@ -102,8 +102,31 @@ comments:
     email: md5
 ```
 
+I've commented the above especially for this post. I actually suggest you start with the sample config from Staticman, and be sure to read their [full config reference](https://staticman.net/docs/configuration) for all the options you can use.
+
+Essentially, this config file boils down to:
+- Which branch is this config for?
+- What fields do we want (or not) on comments?
+- Where and how should we store these comments?
+
 ## Step 3 - Adding Comments to Your Site
+We now have an API running which, given the right parameters, will convert our API request into a file, then push that file to our repo.
+That leaves 2 bits missing:
+- Jekyll won't yet do anything with those comment files
+- We don't have any means of website visitors submitting a comment
 
+To tackle point one, 
 
+## Extras
+Handling multiple branches....
+Threaded comments
+Have I made comments on/off per post work and written about it yet?
 
 ## Credits
+I wanted to write this post to document my experience, as there were a couple of things I got stuck on (e.g. staticman.yml config sits in the remote repo, not in the app dir on the Staticman server!).
+I cannot claim to have figured this all out on my own though, as I have drawn on multiple excellent pages to help me get to this stage.
+I drew a lot from [this excellent post from MadeMistakes](https://mademistakes.com/mastering-jekyll/static-comments/), which details their experience in a way that is far more conclusive than I've managed.
+The MadeMistakes approach used jQuery, which I wanted to avoid as I didn't need it anywhere else on my blog, so [this post from Joe Hendrix](https://www.joehxblog.com/decoupling-my-commenting-system-from-jquery/) helped me with a native JavaScript solution for submitting the comment form.
+Last but not least, the [Staticman documentation](https://staticman.net/docs/) itself is of course very helpful, and if you're serious about setting up Staticman for yourself, you should read it to understand all the configurable options available to you.
+
+Also worth noting, MadeMistakes have posted a [follow-up article](https://mademistakes.com/mastering-jekyll/static-comments-improved/) which covers some extra things you can do such as threaded comments.
