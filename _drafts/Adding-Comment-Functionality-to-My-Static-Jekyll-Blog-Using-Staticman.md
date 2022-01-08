@@ -10,6 +10,7 @@ One of the noted limitations at the time was that I wasn't able to offer comment
 I never wanted this to be a permanent solution, and recently I finally got around to implementing comments. 
 
 ## Why Staticman?
+
 I looked at a number of different solutions. Perhaps the most well known is Disqus, which has been around for years, and I understand is pretty easy to implement, with a bit of code you can add to any page to include their commenting widgets.
 
 For those in search of an easy life, Disqus certainly seems a good solution. However, as a commercial product it is not without its downsides - the price isn't the cheapest if you don't want ads on your site, and I also felt it was a little 'heavy' a thing to load in the browser - part the reason for having a static site is keeping it fast and page ranks high, and I didn't want commenting to be a detriment to this.
