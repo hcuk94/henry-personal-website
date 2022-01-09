@@ -1,10 +1,10 @@
 ---
 layout: post
 title: "Adding Comment Functionality to my Static Jekyll Blog Using Staticman"
-excerpt: "coming soon"
+excerpt: "Last year I wrote about how I built this site as static HTML using Jekyll. In this follow-up post I add comment functionality to each of my blog posts, using a service called Staticman"
 comments: true
 ---
-Last year I [wrote about how I built this site](https://www.henrycole.uk/2021/07/17/Building-a-Basic-Personal-Blog-using-Jekyll.html) and its associated blog functionality using Jekyll and a bunch of other tools. If you'd like to read that post then follow this link.
+Last year I [wrote about how I built this site](https://www.henrycole.uk/2021/07/17/Building-a-Basic-Personal-Blog-using-Jekyll.html) and its associated blog functionality using Jekyll and a bunch of other tools.
 
 One of the noted limitations at the time was that I wasn't able to offer commenting on my blog posts. Instead, I put some text at the bottom of the blog post template file, which invited readers to contact me directly with any feedback or suggestions on my scribblings.
 
@@ -464,3 +464,5 @@ The MadeMistakes approach used jQuery, which I wanted to avoid as I didn't need 
 Last but not least, the [Staticman documentation](https://staticman.net/docs/) itself is of course very helpful, and if you're serious about setting up Staticman for yourself, you should read it to understand all the configurable options available to you.
 
 Also worth noting, MadeMistakes have posted a [follow-up article](https://mademistakes.com/mastering-jekyll/static-comments-improved/) which covers some extra things you can do such as threaded comments.
+
+If you've read this far, thanks for sticking with me, and feel free to use the comments section below to try out the end result!

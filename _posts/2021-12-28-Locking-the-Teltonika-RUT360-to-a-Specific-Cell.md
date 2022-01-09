@@ -2,6 +2,7 @@
 layout: post
 title: Locking the Teltonika RUT360 to a Specific Cell ID
 excerpt: Using a Teltonika RUT360 4G modem, it is possible to 'lock' to a specific mobile cell, for example if this can offer improved speeds
+comments: true
 ---
 I recently purchased a Teltonika RUT360 Modem to deliver 4G broadband to my parents' rural home. Of the two available 4G cells to me, one performs very well but the other gives pretty slow speeds (full write-up in [this blog post](https://staging.henrycole.uk/2021/12/28/Delivering-Rural-Broadband-over-4G.html)).
 

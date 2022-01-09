@@ -2,6 +2,7 @@
 layout: post
 title: Delivering Rural Broadband over 4G
 excerpt: A tale of rural broadband delivery via a 4G connection dependent on one specific 'good' cell tower
+comments: true
 ---
 My parents live in rural Suffolk, where broadband still has some catching up to do.
 

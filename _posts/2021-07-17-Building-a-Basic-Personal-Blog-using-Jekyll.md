@@ -135,6 +135,6 @@ Keeping things this simple isn't without its limitations of course.
 
 The main thing I feel is missing right now is the ability to comment on blog posts - this is something that does have a number of plausible options, but I've not yet put aside the time to investigate these. If I do find a suitable solution, I'll update this blog post to reflect this.
 
-In the meantime, I'd love to hear comments or questions, so if you have anything to add, please get in touch with me using the various options shown on this site.
+Update January 2022: I have now added commenting to this blog using Staticman. I have written a [follow-up post here](https://www.henrycole.uk/2022/01/09/Adding-Comment-Functionality-to-My-Static-Jekyll-Blog-Using-Staticman.html) on how I achieved this.
 
 Thanks for reading!
