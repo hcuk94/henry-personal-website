@@ -119,11 +119,12 @@ To tackle point one, we need to be somewhat familiar with how Jekyll & Liquid bu
 
 In my case, I have a layout called post.html, which calls includes of header.html and footer.html. This layout is used by Jekyll for each markdown file in my _posts directory, because these include ```layout: post``` at the top of the page. So _layouts/post.html is the standard template for a blog post, that seems like a good place for us to start adding comments.
 
-To keep things somewhat modular, I then created a new file in '_includes' called post_comments.html. I simply call this at the bottom of my post.html template with ```\{\% include post_comments.html \%\}```. Great, we now have every blog post including a comments file.
+To keep things somewhat modular, I then created a new file in '_includes' called post_comments.html. I simply call this at the bottom of my post.html template with ```{% raw %}{% include post_comments.html %}{% endraw %}```. Great, we now have every blog post including a comments file.
 
 In post_comments.html, we can then write some code to check if we have comments on this post:
 #### _includes/post_comments.html
 ```
+{% raw %}
       {% if site.data.comments[page.slug] %}
         <div id="comments">
           <h3>Comments</h3>
@@ -138,6 +139,7 @@ In post_comments.html, we can then write some code to check if we have comments 
           {% endfor %}
         </div>
       {% endif %}
+{% endraw %}
 ```
 This part is fairly straightforward, we are firstly checking if there are comments files associated with the page in question. If there aren't; we can assume it has no comments and we don't need to worry about displaying anything. But if there are, we firstly display a heading, then we iterate through each comment file for this post, and for each one we include another file, 'comment.html', which will display that individual comment.
 Note how we pass the comment data as variables when we include comment.html.
@@ -146,6 +148,7 @@ In comment.html we then need to handle these variables and display them however 
 
 #### _includes/comment.html
 ```
+{% raw %}
 <article id="comment{{ include.index }}" class="js-comment comment card m-4" itemprop="comment" itemscop itemtype="http://schema.org/Comment">
     <div class="container mt-3">
         <div class="row">
@@ -172,6 +175,7 @@ In comment.html we then need to handle these variables and display them however 
         </div>
     </div>
   </article>
+{% endraw %}
 ```
 
 As you can see, comment.html is mostly HTML to display our individual comment. It includes the following logic however:
@@ -184,6 +188,7 @@ That's it! We now have everything we need for Jekyll's build process to pick up 
 
 All that's left to do now is set up our form for leaving a new comment. For this I'm using the same 'post_comments.html' include file as earlier, since this is included at the bottom of every post:
 ```
+{% raw %}
 <!-- Leave a Comment Form -->
 <h3>Leave a Comment</h3>
 <p>You can leave a public comment below, or alternatively <a href="/#contact" class="text-decoration-none text-muted">get in touch with me direct</a> if you'd prefer.</p>
@@ -229,6 +234,7 @@ All that's left to do now is set up our form for leaving a new comment. For this
     <div role="progressbar" id="comment-form-submitting" hidden><img width="50px" height="50px" src="/img/spinner.gif" style="display: inline;" alt="loading spinner" /></div>
     <div id="comment-form-success" class="alert alert-success" hidden>Thank you for your comment. It will be visible on this page in a few minutes' time.</div>
     <div id="comment-form-error" class="alert alert-danger" hidden>Sorry, there was an error with your submission.</strong> Please make sure all required fields have been completed and try again.</div>
+{% endraw %}
 ```
 The above is our HTML form for submitting a comment. There's not much special about it, but a couple of things to note:
 - It has a hidden field for Jekyll to inject the page 'slug' - this is what Staticman will use to ensure the comment is associated with the post on which it was left.
@@ -237,6 +243,7 @@ The above is our HTML form for submitting a comment. There's not much special ab
 
 Here's the JS I'm using to process this form:
 ```
+{% raw %}
  <!-- JS to handle comment form submission via Staticman API -->
  <script>
     document.getElementById('comment-form').onsubmit = e => {
@@ -277,10 +284,13 @@ Here's the JS I'm using to process this form:
       });
     }
     </script>
+{% endraw %}
 ```
 The first thing worth noting here is the submission URL for Staticman in this line:
 ```
+{% raw %}
       fetch('{{site.staticman.base_url}}/v2/entry/{{site.staticman.git_provider_username}}/{{site.staticman.repo}}/{{site.branch}}/comments', {
+{% endraw %}
 ```
 You could hard code this URL, but I chose to add the following to my Jekyll _config.yml:
 ```
