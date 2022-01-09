@@ -6,8 +6,8 @@
     {% assign path = site.data.comments[page.slug] %}
     {% endif %}
       {% if path %}
-        <div id="comments" class="js-comments mb-4">
-          <h3 class="tile__header">Comments</h3>
+        <div id="comments" class="mb-4">
+          <h3>Comments</h3>
           {% assign comments = path | sort %}
           {% for comment in comments %}
             {% assign email = comment[1].email %}

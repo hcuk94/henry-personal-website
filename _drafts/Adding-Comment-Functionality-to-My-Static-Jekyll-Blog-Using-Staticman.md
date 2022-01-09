@@ -115,12 +115,200 @@ That leaves 2 bits missing:
 - Jekyll won't yet do anything with those comment files
 - We don't have any means of website visitors submitting a comment
 
-To tackle point one, 
+To tackle point one, we need to be somewhat familiar with how Jekyll & Liquid build pages.
+
+In my case, I have a layout called post.html, which calls includes of header.html and footer.html. This layout is used by Jekyll for each markdown file in my _posts directory, because these include ```layout: post``` at the top of the page. So _layouts/post.html is the standard template for a blog post, that seems like a good place for us to start adding comments.
+
+To keep things somewhat modular, I then created a new file in '_includes' called post_comments.html. I simply call this at the bottom of my post.html template with ```{% include post_comments.html %}```. Great, we now have every blog post including a comments file.
+
+In post_comments.html, we can then write some code to check if we have comments on this post:
+#### _includes/post_comments.html
+```
+      {% if site.data.comments[page.slug] %}
+        <div id="comments">
+          <h3>Comments</h3>
+          {% assign comments = path | sort %}
+          {% for comment in comments %}
+            {% assign email = comment[1].email %}
+            {% assign name = comment[1].name %}
+            {% assign url = comment[1].url %}
+            {% assign date = comment[1].date %}
+            {% assign message = comment[1].message %}
+            {% include comment.html index=forloop.index email=email name=name url=url date=date message=message %}
+          {% endfor %}
+        </div>
+      {% endif %}
+```
+This part is fairly straightforward, we are firstly checking if there are comments files associated with the page in question. If there aren't; we can assume it has no comments and we don't need to worry about displaying anything. But if there are, we firstly display a heading, then we iterate through each comment file for this post, and for each one we include another file, 'comment.html', which will display that individual comment.
+Note how we pass the comment data as variables when we include comment.html.
+
+In comment.html we then need to handle these variables and display them however we want. My site uses [Bootstrap](https://getbootstrap.com), so the styling is using Bootstrap's classes. You're welcome to use this if you also use Bootstrap, otherwise you simply need to add your relevant styles for these elements.
+
+#### _includes/comment.html
+```
+<article id="comment{{ include.index }}" class="js-comment comment card m-4" itemprop="comment" itemscop itemtype="http://schema.org/Comment">
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-2 col-md-1">
+                <img class="comment__avatar" src="https://www.gravatar.com/avatar/{{ include.email }}?d=mm&s=50" srcset="https://www.gravatar.com/avatar/{{ include.email }}?d=mm&s=100 2x" alt="{{ include.name }}" height="50" width="50">
+            </div>
+            <div class="col">
+                <h5 class="card-title" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                    {% unless include.url == blank or include.url == "" or include.url == nil %}
+                    <a rel="nofollow" href="{{ include.url }}" class="text-decoration-none text-reset"><span itemprop="name">{{ include.name }}</span></a>
+                    {% else %}
+                    <span itemprop="name">{{ include.name }}</span>
+                    {% endunless %}
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted">
+                    {% if include.date %}
+                    {% if include.index %}<a href="#comment{{ include.index }}" itemprop="url" class="text-decoration-none text-reset">{% endif %}
+                    <time datetime="{{ include.date | date_to_xmlschema }}" itemprop="datePublished">{{ include.date | date: "%B %d, %Y at %I:%M %p" }}</time>
+                    {% if include.index %}</a>{% endif %}
+                    {% endif %}
+                </h6>
+                <p itemprop="text" class="card-text">{{ include.message | markdownify }}</p>
+            </div>
+        </div>
+    </div>
+  </article>
+```
+
+As you can see, comment.html is mostly HTML to display our individual comment. It includes the following logic however:
+- An 'index' added to the HTML element ID, so we can link directly to this comment. 
+- A profile picture for the visitor which comes from Gravatar based on their email address (Gravatar will return a placeholder image if they do not have one).
+- Some logic to check if the visitor left a URL; if they did then link their name to their URL.
+- Conversion of the timestamp of their comment into a human readable time that the comment was left.
+
+That's it! We now have everything we need for Jekyll's build process to pick up the comment files and display each of these under the associated blog post.
+
+All that's left to do now is set up our form for leaving a new comment. For this I'm using the same 'post_comments.html' include file as earlier, since this is included at the bottom of every post:
+```
+<!-- Leave a Comment Form -->
+<h3>Leave a Comment</h3>
+<p>You can leave a public comment below, or alternatively <a href="/#contact" class="text-decoration-none text-muted">get in touch with me direct</a> if you'd prefer.</p>
+<form id="comment-form" method="post" action="{{ site.staticman.endpoint }}{{ site.repository }}/{{ site.staticman.branch }}">
+    <div class="mb-3">
+        <fieldset>
+        <label class="form-label" for="comment-form-name">Name</label>
+        <input class="form-control" type="text" id="comment-form-name" name="fields[name]"/>
+        </fieldset>
+    </div>
+    <div class="mb-3">
+        <fieldset>
+        <label class="form-label" for="comment-form-email">Email address</label>
+        <input class="form-control" type="email" id="comment-form-email" name="fields[email]"/>
+        </fieldset>
+    </div>
+    <div class="mb-3">
+        <fieldset>
+        <label class="form-label" for="comment-form-url">Website (optional)</label>
+        <input class="form-control" type="url" id="comment-form-url" name="fields[url]"/>
+        </fieldset>
+    </div>
+    <fieldset class="hidden" style="display: none;">
+      <!-- used by Staticman to generate filenames for each comment -->
+      <input type="hidden" name="options[slug]" value="{{ page.slug }}">
+      <!-- honeypot used to filter out spam -->
+      <label class="form-label" for="comment-form-location">Not used. Leave blank if you are a human.</label>
+      <input type="text" id="comment-form-location" name="fields[hidden]" autocomplete="off"/>
+    </fieldset>
+    <div class="mb-3">
+        <fieldset>
+            <label class="form-label" for="comment-form-message">Comment</label>
+            <textarea class="form-control" type="text" rows="3" id="comment-form-message" name="fields[message]"></textarea>
+        </fieldset>
+    </div>
+    <div class="mb-3">
+        <fieldset>
+        <button type="submit" id="comment-form-submit" class="btn btn-secondary">Submit Comment</button>
+        </fieldset>
+    </div>
+  </form>
+    <!-- Comment form response messages -->
+    <div role="progressbar" id="comment-form-submitting" hidden><img width="50px" height="50px" src="/img/spinner.gif" style="display: inline;" alt="loading spinner" /></div>
+    <div id="comment-form-success" class="alert alert-success" hidden>Thank you for your comment. It will be visible on this page in a few minutes' time.</div>
+    <div id="comment-form-error" class="alert alert-danger" hidden>Sorry, there was an error with your submission.</strong> Please make sure all required fields have been completed and try again.</div>
+```
+The above is our HTML form for submitting a comment. There's not much special about it, but a couple of things to note:
+- It has a hidden field for Jekyll to inject the page 'slug' - this is what Staticman will use to ensure the comment is associated with the post on which it was left.
+- It has a hidden 'honeypot' field. This is a small antispam measure, because in our Staticman config earlier we didn't list this as an 'allowed field'. So if a robot fills it in, Staticman will reject their entry as spam.
+- In the final section we have a loading GIF, a success message and an error message. These are all hidden by default, but using JavaScript we can show these when it is pertinent to do so.
+
+Here's the JS I'm using to process this form:
+```
+ <!-- JS to handle comment form submission via Staticman API -->
+ <script>
+    document.getElementById('comment-form').onsubmit = e => {
+      e.preventDefault();
+    
+      let form = document.getElementById('comment-form');
+
+      form.hidden = true;
+      document.getElementById('comment-form-success').hidden = true;
+      document.getElementById('comment-form-error').hidden = true;
+      document.getElementById('comment-form-submitting').hidden = false;
+    
+      let formData = new FormData(form);
+      let params = new URLSearchParams(formData).toString();
+    
+      fetch('{{site.staticman.base_url}}/v2/entry/{{site.staticman.git_provider_username}}/{{site.staticman.repo}}/{{site.branch}}/comments', {
+        method: 'post',
+        credentials: 'include',
+        headers: {
+          'accept': '*/*',
+          'accept-language': 'en-US,en;q=0.9',
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+        body: params,
+        mode: 'cors',
+        credentials: 'omit'
+      }).then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok:' + response.statusText);
+        }
+        document.getElementById('comment-form-submitting').hidden = true;
+        document.getElementById('comment-form-success').hidden = false;
+      }).catch(err => {
+        console.log(err);
+        document.getElementById('comment-form-submitting').hidden = true;
+        document.getElementById('comment-form-error').hidden = false;
+        form.hidden = false;
+      });
+    }
+    </script>
+```
+The first thing worth noting here is the submission URL for Staticman in this line:
+```
+      fetch('{{site.staticman.base_url}}/v2/entry/{{site.staticman.git_provider_username}}/{{site.staticman.repo}}/{{site.branch}}/comments', {
+```
+You could hard code this URL, but I chose to add the following to my Jekyll _config.yml:
+```
+branch: main
+staticman:
+  repo: henry-personal-website
+  git_provider: github
+  git_provider_username: hcuk94
+  base_url: https://staticman.henrycole.uk
+```
+When these site variables have been injected into this JS by Jekyll, our submit URL will then look like this:
+```https://staticman.henrycole.uk/v2/entry/hcuk94/henry-personal-website/main/comments```
+You can now see how Staticman expects the repo details in the API URL, in order to know where to submit the comment.
+
+Other than that, the flow of this JS boils down to:
+- When the form is submitted, hide the form and show a loading spinner GIF to the user.
+- Submit the comment to the Staticman API.
+- If the API returns an error, log an error to the user's browser console, and show the 'error' message on the form.
+- If the API returns successfully, show the 'success' message.
+
+
 
 ## Extras
 Handling multiple branches....
 Threaded comments
 Have I made comments on/off per post work and written about it yet?
+Turning off access to github authorisation URL in nginx
+Antispam?
 
 ## Credits
 I wanted to write this post to document my experience, as there were a couple of things I got stuck on (e.g. staticman.yml config sits in the remote repo, not in the app dir on the Staticman server!).
