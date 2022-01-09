@@ -68,6 +68,7 @@ The requests you end up making to the Staticman API will tell it which repo to c
 We don't need to worry about making requests to the API just yet, but we do need to configure Staticman for our repo. This is done using a file called *staticman.yml*.
 
 ```
+{% raw %}
 # Production (main)
 comments:
   # Which Git Branch should Staticman push comments to
@@ -100,6 +101,7 @@ comments:
   # of our site visitors in a public repo
   transforms:
     email: md5
+{% endraw %}
 ```
 
 I've commented the above especially for this post. I actually suggest you start with the sample config from Staticman, and be sure to read their [full config reference](https://staticman.net/docs/configuration) for all the options you can use.
@@ -193,7 +195,7 @@ All that's left to do now is set up our form for leaving a new comment. For this
 <!-- Leave a Comment Form -->
 <h3>Leave a Comment</h3>
 <p>You can leave a public comment below, or alternatively <a href="/#contact" class="text-decoration-none text-muted">get in touch with me direct</a> if you'd prefer.</p>
-<form id="comment-form" method="post" action="{{ site.staticman.endpoint }}{{ site.repository }}/{{ site.staticman.branch }}">
+<form id="comment-form" method="post" action="{{site.staticman.base_url}}/v2/entry/{{site.staticman.git_provider_username}}/{{site.staticman.repo}}/{{site.branch}}/comments{% if site.branch != "main" %}-{{ site.branch }}{% endif %}">
     <div class="mb-3">
         <fieldset>
         <label class="form-label" for="comment-form-name">Name</label>
@@ -327,10 +329,83 @@ If you experience issues, you can use an API client such as Paw or Postman to tr
 That's all there is to it, but I've also included some optional extras below which you may want to consider.
 
 ## Extras
-Handling multiple branches....
+### Handling Multiple Branches
+I have a staging site in addition to my public website, where I write draft posts and make changes to my site before putting them live.
+This exists as a 'staging' branch in the same repository, and when I implemented Staticman I wasn't too sure how I should handle this. Staticman will always push new comments to a specific branch, so there's some merging which will need to take place at some point whichever way you look at it.
+
+However, I figured it would be useful to have the ability to comment on the staging site for when I needed to test the functionality. I decided I should have another folder, comments-staging, which will contain any comments for the staging site.
+
+As part of my build process for the staging branch, I already replace _config.yml with _config.staging.yml, so I just need to change ```branch: main``` to ```branch: staging``` in that file.
+
+In the staticman.yml config file, I add an additional block for the staging branch:
+```
+{% raw %}
+# Staging
+comments-staging:
+  branch: "staging"
+  allowedFields: ["name", "email", "url", "message"]
+  requiredFields: ["name", "email", "message"]
+  commitMessage: "New comment added on blog post"
+  filename: "entry{@timestamp}"
+  format: "yaml"
+  generatedFields:
+    date:
+      type: date
+      options:
+        format: "timestamp-seconds"
+  moderation: false
+  name: "staging.henrycole.uk"
+  allowedOrigins: ["localhost", "staging.henrycole.uk"]
+  path: "_data/comments-staging/{options.slug}"
+  transforms:
+    email: md5
+{% endraw %}
+```
+
+We're effectively telling Staticman to accept comments for this branch, and store them in the '_data/comments-staging/' directory.
+
+Then there's some tweaks to do in our site code. In includes/post_comments.html we can add some logic to check the branch and fetch comments from the appropriate directory:
+```
+{% raw %}
+    {% if site.branch == "staging" %}
+     {% assign path = site.data.comments-staging[page.slug] %}
+    {% else %}
+    {% assign path = site.data.comments[page.slug] %}
+    {% endif %}
+      {% if path %}
+        <div id="comments" class="mb-4">
+          <h3>Comments</h3>
+          {% assign comments = path | sort %}
+          {% for comment in comments %}
+            {% assign email = comment[1].email %}
+            {% assign name = comment[1].name %}
+            {% assign url = comment[1].url %}
+            {% assign date = comment[1].date %}
+            {% assign message = comment[1].message %}
+            {% include comment.html index=forloop.index email=email name=name url=url date=date message=message %}
+          {% endfor %}
+        </div>
+      {% endif %}
+{% endraw %}
+```
+
+There's also some logic to be added to our API URL in our form & JS:
+```
+{% raw %}
+{{site.staticman.base_url}}/v2/entry/{{site.staticman.git_provider_username}}/{{site.staticman.repo}}/{{site.branch}}/comments{% if site.branch != "main" %}-{{ site.branch }}{% endif %}
+{% endraw %}
+```
+
+And that should be it - we've configured our staging build to use a different branch name and directory name for Staticman, and configured our site code to handle this when posting/displaying comments.
+
+### Threaded Comments
 Threaded comments
+
+### Enabling/Disabling Comments per Post
 Have I made comments on/off per post work and written about it yet?
+### API Security
 Turning off access to github authorisation URL in nginx
+Captcha
 Antispam?
 
 ## Credits
