@@ -21,6 +21,7 @@
       {% endif %}
 
 <!-- Leave a Comment Form -->
+{% if page.comments == true %}
 <h3>Leave a Comment</h3>
 <p>You can leave a public comment below, or alternatively <a href="/#contact" class="text-decoration-none text-muted">get in touch with me direct</a> if you'd prefer.</p>
 <form id="comment-form" method="post" action="{{site.staticman.base_url}}/v2/entry/{{site.staticman.git_provider_username}}/{{site.staticman.repo}}/{{site.branch}}/comments{% if site.branch != "main" %}-{{ site.branch }}{% endif %}">
@@ -106,4 +107,5 @@
       });
     }
     </script>
+{% endif %}
 </section>

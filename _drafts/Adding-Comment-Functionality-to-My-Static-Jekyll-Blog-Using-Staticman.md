@@ -400,9 +400,6 @@ There's also some logic to be added to our API URL in our form & JS:
 
 And that should be it - we've configured our staging build to use a different branch name and directory name for Staticman, and configured our site code to handle this when posting/displaying comments.
 
-### Threaded Comments
-Threaded comments
-
 ### Enabling/Disabling Comments per Post
 Have I made comments on/off per post work and written about it yet?
 ### API Security
