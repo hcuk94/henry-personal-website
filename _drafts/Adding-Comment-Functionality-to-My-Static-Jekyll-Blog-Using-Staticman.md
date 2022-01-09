@@ -401,7 +401,38 @@ There's also some logic to be added to our API URL in our form & JS:
 And that should be it - we've configured our staging build to use a different branch name and directory name for Staticman, and configured our site code to handle this when posting/displaying comments.
 
 ### Enabling/Disabling Comments per Post
-Have I made comments on/off per post work and written about it yet?
+I wasn't sure if I necessarily wanted commenting to always be available on every post I write, so I figured I'd add a bit of logic to allow me to enable/disable it on a per-post basis.
+I decided to still show existing comments, but replace the comment form with some text inviting visitors to contact me directly if they have any feedback.
+
+This is fairly simple to achieve, since Jekyll already has a properties header at the top of every post. I simply needed to add a property for comments, such as the below:
+```
+---
+layout: post
+title: Hello, World!
+excerpt: My first blog post
+comments: true
+---
+```
+
+Then, in my _includes/post_comments.html file, I wrap the following around the form:
+```
+{% if page.comments == true and site.comments == true %}
+    ... (html form) ...
+{% else %}
+<p class="text-center mt-3"><small>
+  Comments are turned off for this post, but please do <a href="/#contact" class="text-decoration-none text-muted">get in touch directly</a> if 
+  you've any comments or questions.
+</small></p>
+{% endif %}
+```
+
+So we've simply added a check for the page.comments property being set to true, and only if that condition is met will we show the comments form.
+
+If comments is set to false, or indeed if it is not set at all, we will show a message inviting visitors to contact me direct instead.
+
+The 2nd check in the 'if' statement is for a site-level property called comments. This works in exactly the same way but is set in the _config.yml file. This means that we can turn off comments for the entire site - I figured this might be useful if I wanted to do maintenance on Staticman for example, as it would avoid presenting visitors with an error after they had written out a very thoughtful comment.
+
+
 ### API Security
 Turning off access to github authorisation URL in nginx
 Captcha
