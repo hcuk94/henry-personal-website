@@ -187,6 +187,7 @@ As you can see, comment.html is mostly HTML to display our individual comment. I
 That's it! We now have everything we need for Jekyll's build process to pick up the comment files and display each of these under the associated blog post.
 
 All that's left to do now is set up our form for leaving a new comment. For this I'm using the same 'post_comments.html' include file as earlier, since this is included at the bottom of every post:
+#### _includes/post_comments.html
 ```
 {% raw %}
 <!-- Leave a Comment Form -->
@@ -242,6 +243,7 @@ The above is our HTML form for submitting a comment. There's not much special ab
 - In the final section we have a loading GIF, a success message and an error message. These are all hidden by default, but using JavaScript we can show these when it is pertinent to do so.
 
 Here's the JS I'm using to process this form:
+#### _includes/post_comments.html
 ```
 {% raw %}
  <!-- JS to handle comment form submission via Staticman API -->
@@ -286,13 +288,16 @@ Here's the JS I'm using to process this form:
     </script>
 {% endraw %}
 ```
+
 The first thing worth noting here is the submission URL for Staticman in this line:
 ```
 {% raw %}
       fetch('{{site.staticman.base_url}}/v2/entry/{{site.staticman.git_provider_username}}/{{site.staticman.repo}}/{{site.branch}}/comments', {
 {% endraw %}
 ```
+
 You could hard code this URL, but I chose to add the following to my Jekyll _config.yml:
+#### _config.yml
 ```
 branch: main
 staticman:
@@ -303,6 +308,7 @@ staticman:
 ```
 When these site variables have been injected into this JS by Jekyll, our submit URL will then look like this:
 ```https://staticman.henrycole.uk/v2/entry/hcuk94/henry-personal-website/main/comments```
+
 You can now see how Staticman expects the repo details in the API URL, in order to know where to submit the comment.
 
 Other than that, the flow of this JS boils down to:
@@ -311,7 +317,14 @@ Other than that, the flow of this JS boils down to:
 - If the API returns an error, log an error to the user's browser console, and show the 'error' message on the form.
 - If the API returns successfully, show the 'success' message.
 
+This is pretty much all we need. We've now got the following:
+- A Staticman instance running
+- The relevant configuration files in our Repo
+- The code in our blog to display comments and a form for posting a new comment
 
+If you experience issues, you can use an API client such as Paw or Postman to troubleshoot the API endpoint direct. The logs from the Staticman API instance may help you too. I did encounter a couple of issues e.g. with getting the POST URL format exactly right, but after some fiddling was able to get there.
+
+That's all there is to it, but I've also included some optional extras below which you may want to consider.
 
 ## Extras
 Handling multiple branches....
