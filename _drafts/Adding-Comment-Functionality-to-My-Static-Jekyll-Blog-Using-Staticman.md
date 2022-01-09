@@ -451,11 +451,12 @@ Staticman comes with 2 inbuilt methods for helping combat spam; these are Akisme
 
 Akismet is a well-known service if you've ever run a WordPress site before; it analyses comments and rejects potential spam. It is (usually) a paid service.
 
-reCAPTCHA is Google's CAPTCHA, which you will undoubtedly have seen before. To post a comment with this enabled, you'd need to select all squares with bicycles for example. It's also very handy for confusing UK-based visitors by asking them to identify 'sidewalks'. In the interest of not supporting the Google empire I do recommend hCAPTCHA as an alternative, but sadly Staticman has not yet implemented hCAPTCHA. 
+reCAPTCHA is Google's CAPTCHA, which you will undoubtedly have seen before. To post a comment with this enabled, you'd need to select all squares with bicycles for example. It's also very handy for confusing UK-based visitors by asking them to identify 'sidewalks'. In the interest of not supporting the Google empire and being a privacy enthusiast I do recommend [hCAPTCHA](https://www.hcaptcha.com) as an alternative, but sadly Staticman has not yet implemented hCAPTCHA. 
 
 ## Credits
 I wanted to write this post to document my experience, as there were a couple of things I got stuck on (e.g. staticman.yml config sits in the remote repo, not in the app dir on the Staticman server!).
 I cannot claim to have figured this all out on my own though, as I have drawn on multiple excellent pages to help me get to this stage.
+
 I drew a lot from [this excellent post from MadeMistakes](https://mademistakes.com/mastering-jekyll/static-comments/), which details their experience in a way that is far more conclusive than I've managed.
 The MadeMistakes approach used jQuery, which I wanted to avoid as I didn't need it anywhere else on my blog, so [this post from Joe Hendrix](https://www.joehxblog.com/decoupling-my-commenting-system-from-jquery/) helped me with a native JavaScript solution for submitting the comment form.
 Last but not least, the [Staticman documentation](https://staticman.net/docs/) itself is of course very helpful, and if you're serious about setting up Staticman for yourself, you should read it to understand all the configurable options available to you.
