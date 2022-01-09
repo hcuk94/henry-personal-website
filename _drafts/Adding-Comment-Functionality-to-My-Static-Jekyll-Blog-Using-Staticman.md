@@ -119,7 +119,7 @@ To tackle point one, we need to be somewhat familiar with how Jekyll & Liquid bu
 
 In my case, I have a layout called post.html, which calls includes of header.html and footer.html. This layout is used by Jekyll for each markdown file in my _posts directory, because these include ```layout: post``` at the top of the page. So _layouts/post.html is the standard template for a blog post, that seems like a good place for us to start adding comments.
 
-To keep things somewhat modular, I then created a new file in '_includes' called post_comments.html. I simply call this at the bottom of my post.html template with ```{% include post_comments.html %}```. Great, we now have every blog post including a comments file.
+To keep things somewhat modular, I then created a new file in '_includes' called post_comments.html. I simply call this at the bottom of my post.html template with ```\{\% include post_comments.html \%\}```. Great, we now have every blog post including a comments file.
 
 In post_comments.html, we can then write some code to check if we have comments on this post:
 #### _includes/post_comments.html
@@ -303,7 +303,7 @@ Other than that, the flow of this JS boils down to:
 
 
 
-## Extras
+## Extras
 Handling multiple branches....
 Threaded comments
 Have I made comments on/off per post work and written about it yet?
