@@ -309,7 +309,9 @@ staticman:
   base_url: https://staticman.henrycole.uk
 ```
 When these site variables have been injected into this JS by Jekyll, our submit URL will then look like this:
-```https://staticman.henrycole.uk/v2/entry/hcuk94/henry-personal-website/main/comments```
+```
+https://staticman.henrycole.uk/v2/entry/hcuk94/henry-personal-website/main/comments
+```
 
 You can now see how Staticman expects the repo details in the API URL, in order to know where to submit the comment.
 
