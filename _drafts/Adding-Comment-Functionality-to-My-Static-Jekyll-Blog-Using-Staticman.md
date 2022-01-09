@@ -2,6 +2,7 @@
 layout: post
 title: "Adding Comment Functionality to my Static Jekyll Blog Using Staticman"
 excerpt: "coming soon"
+comments: true
 ---
 Last year I wrote about how I built this site and its associated blog functionality using Jekyll and a bunch of other tools. If you'd like to read that post then follow this link.
 
