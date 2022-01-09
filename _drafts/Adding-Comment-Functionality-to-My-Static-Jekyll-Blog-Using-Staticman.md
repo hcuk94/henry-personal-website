@@ -434,10 +434,24 @@ If comments is set to false, or indeed if it is not set at all, we will show a m
 The 2nd check in the 'if' statement is for a site-level property called comments. This works in exactly the same way but is set in the _config.yml file. This means that we can turn off comments for the entire site - I figured this might be useful if I wanted to do maintenance on Staticman for example, as it would avoid presenting visitors with an error after they had written out a very thoughtful comment.
 
 
-### API Security
-Turning off access to github authorisation URL in nginx
-Captcha
-Antispam?
+### Security & Antispam
+If you've been around the block when it comes to allowing comments on blogs, you might be thinking this all seems a little 'open' to the world, and you'd be right.
+
+There's a few things worth considering when it comes to security and spam prevention.
+
+#### API Security
+Staticman was originally designed to be run 'as a service' rather than self-hosted by individual blog owners, so the very nature of how it works allows you to use it across any repo on one of the supported services.
+To prevent others using your API in their own Repo, you'll need to take some action depending on how you're authenticating to your Git provider.
+I'm using GitHub, and I'm authenticating using [option 1 detailed here](https://staticman.net/docs/getting-started). This means that I have an 'application' set up in GitHub which I've granted access to my repo. All I need to do to prevent others from using my API endpoint is to make my GitHub Application private. Once I've done that, no one else is able to grant it access and therefore use my key. So any API request will fail.
+
+If using [option 2](https://staticman.net/docs/getting-started) to connect to GitHub, you would need to make your 'connect' API endpoint inaccessible to the public so your API cannot be connected to new repos. 
+
+#### Anti-spam
+Staticman comes with 2 inbuilt methods for helping combat spam; these are Akismet Antispam and reCAPTCHA.
+
+Akismet is a well-known service if you've ever run a WordPress site before; it analyses comments and rejects potential spam. It is (usually) a paid service.
+
+reCAPTCHA is Google's CAPTCHA, which you will undoubtedly have seen before. To post a comment with this enabled, you'd need to select all squares with bicycles for example. It's also very handy for confusing UK-based visitors by asking them to identify 'sidewalks'. In the interest of not supporting the Google empire I do recommend hCAPTCHA as an alternative, but sadly Staticman has not yet implemented hCAPTCHA. 
 
 ## Credits
 I wanted to write this post to document my experience, as there were a couple of things I got stuck on (e.g. staticman.yml config sits in the remote repo, not in the app dir on the Staticman server!).
