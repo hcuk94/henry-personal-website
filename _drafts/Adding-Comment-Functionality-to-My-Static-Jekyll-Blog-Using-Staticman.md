@@ -4,7 +4,7 @@ title: "Adding Comment Functionality to my Static Jekyll Blog Using Staticman"
 excerpt: "coming soon"
 comments: true
 ---
-Last year I wrote about how I built this site and its associated blog functionality using Jekyll and a bunch of other tools. If you'd like to read that post then follow this link.
+Last year I [wrote about how I built this site](https://www.henrycole.uk/2021/07/17/Building-a-Basic-Personal-Blog-using-Jekyll.html) and its associated blog functionality using Jekyll and a bunch of other tools. If you'd like to read that post then follow this link.
 
 One of the noted limitations at the time was that I wasn't able to offer commenting on my blog posts. Instead, I put some text at the bottom of the blog post template file, which invited readers to contact me directly with any feedback or suggestions on my scribblings.
 
@@ -156,7 +156,7 @@ In comment.html we then need to handle these variables and display them however 
     <div class="container mt-3">
         <div class="row">
             <div class="col-2 col-md-1">
-                <img class="comment__avatar" src="https://www.gravatar.com/avatar/{{ include.email }}?d=mm&s=50" srcset="https://www.gravatar.com/avatar/{{ include.email }}?d=mm&s=100 2x" alt="{{ include.name }}" height="50" width="50">
+                <img src="https://www.gravatar.com/avatar/{{ include.email }}?d=mm&s=50" srcset="https://www.gravatar.com/avatar/{{ include.email }}?d=mm&s=100 2x" alt="{{ include.name }}" height="50" width="50">
             </div>
             <div class="col">
                 <h5 class="card-title" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -417,6 +417,7 @@ comments: true
 
 Then, in my _includes/post_comments.html file, I wrap the following around the form:
 ```
+{% raw %}
 {% if page.comments == true and site.comments == true %}
     ... (html form) ...
 {% else %}
@@ -425,6 +426,7 @@ Then, in my _includes/post_comments.html file, I wrap the following around the f
   you've any comments or questions.
 </small></p>
 {% endif %}
+{% endraw %}
 ```
 
 So we've simply added a check for the page.comments property being set to true, and only if that condition is met will we show the comments form.
