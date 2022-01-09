@@ -6,8 +6,8 @@
     {% assign path = site.data.comments[page.slug] %}
     {% endif %}
       {% if path %}
-        <div id="comments" class="js-comments mb-4">
-          <h3 class="tile__header">Comments</h3>
+        <div id="comments" class="mb-4">
+          <h3>Comments</h3>
           {% assign comments = path | sort %}
           {% for comment in comments %}
             {% assign email = comment[1].email %}
@@ -21,9 +21,10 @@
       {% endif %}
 
 <!-- Leave a Comment Form -->
+{% if page.comments == true and site.comments == true %}
 <h3>Leave a Comment</h3>
 <p>You can leave a public comment below, or alternatively <a href="/#contact" class="text-decoration-none text-muted">get in touch with me direct</a> if you'd prefer.</p>
-<form id="comment-form" method="post" action="{{ site.staticman.endpoint }}{{ site.repository }}/{{ site.staticman.branch }}">
+<form id="comment-form" method="post" action="{{site.staticman.base_url}}/v2/entry/{{site.staticman.git_provider_username}}/{{site.staticman.repo}}/{{site.branch}}/comments{% if site.branch != "main" %}-{{ site.branch }}{% endif %}">
     <div class="mb-3">
         <fieldset>
         <label class="form-label" for="comment-form-name">Name</label>
@@ -106,4 +107,10 @@
       });
     }
     </script>
+{% else %}
+<p class="text-center mt-3"><small>
+  Comments are turned off for this post, but please do <a href="/#contact" class="text-decoration-none text-muted">get in touch directly</a> if 
+  you've any comments or questions.
+</small></p>
+{% endif %}
 </section>

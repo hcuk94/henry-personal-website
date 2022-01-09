@@ -3,6 +3,7 @@ name: Henry Cole
 title: Henry Cole
 url: https://www.henrycole.uk
 branch: staging
+comments: true
 author:
   name: Henry Cole
   twitter: henrycole
