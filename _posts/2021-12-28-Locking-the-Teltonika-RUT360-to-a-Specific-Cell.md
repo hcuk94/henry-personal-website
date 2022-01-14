@@ -71,7 +71,7 @@ I have found, from time to time, that my modem does end up unlocked. It's not en
 
 For this reason I recommend keeping a note of the cell earfcn and pcid of your favourite cell. Then, should it become unlocked in future, you can re-run this command sequence to re-apply the lock.
 
-I have also written a small Python script to monitor the current cell and re-apply the lock if the device is not using the correct cell. You can find this script, along with instructions, [at this link](https://github.com/hcuk94/teltonika-cell-autolock).
+I have also written a small shell script to monitor the current cell and re-apply the lock if the device is not using the correct cell. You can find this script, along with instructions, [at this link](https://github.com/hcuk94/teltonika-cell-autolock).
 
 ### Carrier Aggregation
 The other limitation I have encountered is that Carrier Aggregation (CA) does not appear to work whilst cell locking is enabled. I believe this may be down to the earfcn/pcid only relating to a single cell, whilst CA uses two - and therefore locking to a cell goes against the definition of CA.
