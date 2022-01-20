@@ -2,7 +2,7 @@
 layout: post
 title: Building a Basic Personal Blog using Jekyll
 excerpt: A rough overview of how I built this very website using Jekyll, Bootstrap, Nginx & CircleCI
-comments; true
+comments: true
 ---
 
 I recently decided to re-build my personal blog/website (this very site) from the crumbled ashes of my previous attempts some years earlier. I've almost always gone to WordPress for this kind of thing - I've done enough years of WordPress administration to know that its a great piece of software.
