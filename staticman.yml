@@ -9,12 +9,13 @@ comments-staging:
   commitMessage: "New comment added on blog post"
   filename: "entry{@timestamp}"
   format: "yaml"
-  akismet.enabled: true
-  akismet.author: "name"
-  akismet.authorEmail: "email"
-  akismet.authorUrl: "url"
-  akismet.content: "message"
-  akismet.type: "comment"
+  akismet:
+      enabled: enable
+      author: "name"
+      authorEmail: "email"
+      authorUrl: "url"
+      content: "message"
+      type: "comment"
   generatedFields:
     date:
       type: date
