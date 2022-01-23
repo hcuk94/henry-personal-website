@@ -9,6 +9,13 @@ comments-staging:
   commitMessage: "New comment added on blog post"
   filename: "entry{@timestamp}"
   format: "yaml"
+  akismet:
+      enabled: enable
+      author: "name"
+      authorEmail: "email"
+      authorUrl: "url"
+      content: "message"
+      type: "comment"
   generatedFields:
     date:
       type: date
@@ -29,6 +36,13 @@ comments:
   commitMessage: "New comment added on blog post"
   filename: "entry{@timestamp}"
   format: "yaml"
+  akismet:
+      enabled: enable
+      author: "name"
+      authorEmail: "email"
+      authorUrl: "url"
+      content: "message"
+      type: "comment"
   generatedFields:
     date:
       type: date
