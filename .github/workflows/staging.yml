@@ -36,7 +36,7 @@ jobs:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
-        source: "."
+        source: "./_site/*"
         target: "/var/www/staging.henrycole.uk/html/"
 
 
