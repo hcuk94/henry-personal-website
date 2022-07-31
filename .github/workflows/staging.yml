@@ -15,11 +15,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Copy Staging Config
+      run: cp _config.staging.yml _config.yml
+
     - name: Build Site
       run: |
         docker run \
         -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
-        jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --future"
+        jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --drafts"
         
     - name: Set up WireGuard Connection
       uses: egor-tensin/setup-wireguard@v1
@@ -30,13 +33,17 @@ jobs:
        allowed_ips: '${{ secrets.WG_ALLOWEDIPS }}'
        private_key: '${{ secrets.WG_PRIVKEY }}'
 
+
+
+
     - name: Copy Files
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
-        source: "./_site/*"
+        rm: true
+        source: "_site/."
         target: "/var/www/staging.henrycole.uk/html/"
 
 
