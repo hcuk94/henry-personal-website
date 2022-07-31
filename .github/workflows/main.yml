@@ -1,0 +1,30 @@
+name: Henry Personal Website - Build CICD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the site in the jekyll/builder container
+      run: |
+        docker run \
+        -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
+        jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --future"
+        
+    - name: Set up WireGuard
+    - uses: egor-tensin/setup-wireguard@v1
+      with:
+       endpoint: '${{ secrets.ENDPOINT }}'
+       endpoint_public_key: '${{ secrets.ENDPOINT_PUBLIC }}'
+       ips: '${{ secrets.IPS }}'
+       allowed_ips: '${{ secrets.ALLOWED_IPS }}'
+       private_key: '${{ secrets.PRIVATE }}'
+       preshared_key: '${{ secrets.PRESHARED }}'
