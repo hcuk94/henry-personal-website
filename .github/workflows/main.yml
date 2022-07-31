@@ -31,5 +31,5 @@ jobs:
        private_key: '${{ secrets.WG_PRIVKEY }}'
 
     - name: Ping test
-      run: ping 10.100.0.1
+      run: ping -c 4 10.100.0.1
 
