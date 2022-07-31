@@ -30,3 +30,6 @@ jobs:
        allowed_ips: '${{ secrets.WG_ALLOWEDIPS }}'
        private_key: '${{ secrets.WG_PRIVKEY }}'
 
+    - name: Ping test
+      run: ping 10.100.0.1
+
