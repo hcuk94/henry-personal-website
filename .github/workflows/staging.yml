@@ -30,6 +30,7 @@ jobs:
        allowed_ips: '${{ secrets.WG_ALLOWEDIPS }}'
        private_key: '${{ secrets.WG_PRIVKEY }}'
 
-    - name: Ping test
-      run: ping -c 4 10.100.0.1
+    - name: List files
+      run: ls -lh .
+
 
