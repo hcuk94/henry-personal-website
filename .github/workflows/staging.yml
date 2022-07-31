@@ -44,6 +44,6 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         rm: true
         source: "_site/*"
-        target: "/var/www/staging.henrycole.uk/html/"
+        target: "/var/www/staging.henrycole.uk/html"
 
 
