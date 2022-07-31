@@ -21,7 +21,7 @@ jobs:
         -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
         jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --future"
         
-    - name: Set up WireGuard
+    - name: Set up WireGuard Connection
       uses: egor-tensin/setup-wireguard@v1
       with:
        endpoint: '${{ secrets.WG_ENDPOINT }}'
