@@ -43,6 +43,7 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
         rm: true
+        strip_components: 1
         source: "_site/*"
         target: "/var/www/staging.henrycole.uk/html"
 
