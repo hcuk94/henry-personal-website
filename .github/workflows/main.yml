@@ -41,6 +41,9 @@ jobs:
         source: "_site/*"
         target: "/var/www/henrycole.uk/html"
 
+    - name: Ping www2
+      run: ping 10.200.0.72
+
     - name: Deploy to Server - www2
       uses: appleboy/scp-action@master
       with:
