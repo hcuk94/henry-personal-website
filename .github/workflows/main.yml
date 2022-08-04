@@ -42,7 +42,7 @@ jobs:
         target: "/var/www/henrycole.uk/html"
 
     - name: Add route for www2
-      run: ip route add 10.200.0.0/16 dev wg0
+      run: ip route add 10.200.0.0/16 via 10.100.0.1
 
     - name: Deploy to Server - www2
       uses: appleboy/scp-action@master
