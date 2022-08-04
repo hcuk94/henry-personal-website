@@ -30,10 +30,21 @@ jobs:
        allowed_ips: '${{ secrets.WG_ALLOWEDIPS }}'
        private_key: '${{ secrets.WG_PRIVKEY }}'
 
-    - name: Copy Files
+    - name: Deploy to Server - www1
       uses: appleboy/scp-action@master
       with:
-        host: ${{ secrets.SSH_HOST }}
+        host: ${{ secrets.SSH_HOST_WWW1 }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_KEY }}
+        rm: true
+        strip_components: 1
+        source: "_site/*"
+        target: "/var/www/henrycole.uk/html"
+
+    - name: Deploy to Server - www2
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.SSH_HOST_WWW2 }}
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
         rm: true
