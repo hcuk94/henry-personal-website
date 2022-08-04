@@ -46,9 +46,6 @@ jobs:
     #     source: "_site/*"
     #     target: "/var/www/henrycole.uk/html"
 
-    - name: Test SSH
-      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST_WWW2 }}
-
     - name: Deploy to Server - www2
       uses: appleboy/scp-action@master
       with:
