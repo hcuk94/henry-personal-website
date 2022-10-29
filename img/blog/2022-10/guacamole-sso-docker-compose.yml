@@ -1,0 +1,43 @@
+version: '2.0'
+
+networks:
+  guacnet:
+    driver: bridge
+
+services:
+  guacd:
+    container_name: guacd
+    image: guacamole/guacd
+    networks:
+      guacnet:
+    restart: always
+    volumes:
+    - ./drive:/drive:rw
+    - ./record:/record:rw
+
+  guacamole:
+    container_name: guacamole
+    depends_on:
+    - guacd
+    environment:
+      GUACD_HOSTNAME: guacd
+      MYSQL_DATABASE: guacamole
+      MYSQL_HOSTNAME: server
+      MYSQL_PASSWORD: 'password'
+      MYSQL_USER: guacamole
+      EXTENSION_PRIORITY: "*, saml"
+      SAML_IDP_URL: https://login.microsoftonline.com/example/saml2
+      SAML_ENTITY_ID: https://guacamole.example.com/guacamole
+      SAML_CALLBACK_URL: https://guacamole.example.com/guacamole
+      SAML_IDP_METADATA_URL: https://login.microsoftonline.com/example/federationmetadata/2007-06/federationmetadata.xml?appid=example
+    image: guacamole/guacamole
+    links:
+    - guacd
+    networks:
+      guacnet:
+    ports:
+    - 8080:8080/tcp
+    restart: always
+    volumes:
+     - ./start.sh:/opt/guacamole/bin/start.sh
+     - ./server.xml:/usr/local/tomcat/conf/server.xml

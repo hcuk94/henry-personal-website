@@ -33,7 +33,7 @@ On step 1, click **Edit** and populate the *Identifier* and *Reply URL* with the
 
 Next, on step 3, make note of the *App Federation Metadata Url*, and from step 4, take the *Login URL* - you'll need both of these shortly.
 
-## Docker Environment Variables
+## Docker Container Setup
 
 We now need to configure our Guacamole Docker container to use the SAML plugin to authenticate against Azure AD.
 
@@ -66,54 +66,36 @@ sudo docker exec -it guacamole cat /usr/local/tomcat/conf/server.xml >> server.x
 ```
 You will need to change *guacamole* to the name of your container if it differs.
 
-
-Here is my docker-compose.yml file for Guacamole:
-
+You will now have a server.xml file in your docker compose directory. Open it with your favourite editor and find the below section:
 ```
-version: '2.0'
-
-services:
-  guacd:
-    container_name: guacd
-    image: guacamole/guacd
-    networks:
-      guacnet:
-    restart: always
-    volumes:
-    - ./drive:/drive:rw
-    - ./record:/record:rw
-
-  guacamole:
-    container_name: guacamole
-    depends_on:
-    - guacd
-    environment:
-      GUACD_HOSTNAME: guacd
-      MYSQL_DATABASE: guacamole
-      MYSQL_HOSTNAME: server
-      MYSQL_PASSWORD: 'password'
-      MYSQL_USER: guacamole
-      EXTENSION_PRIORITY: "*, saml"
-      SAML_IDP_URL: https://login.microsoftonline.com/guid/saml2
-      SAML_ENTITY_ID: https://guacamole.example.com
-      SAML_CALLBACK_URL: https://guacamole.example.com
-      SAML_IDP_METADATA_URL: https://login.microsoftonline.com/guid/federationmetadata/2007-06/federationmetadata.xml?appid=guid
-    image: guacamole/guacamole
-    links:
-    - guacd
-    networks:
-      guacnet:
-    ports:
-    - 8080:8080/tcp
-    restart: always
-    volumes:
-     - ./start.sh:/opt/guacamole/bin/start.sh
-     - ./server.xml:/usr/local/tomcat/conf/server.xml
-
-networks:
-  guacnet:
-    driver: bridge
+<Connector port="8080" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443" scheme="https" />
 ```
+Note the **scheme="https"** - this is the part you need to add, it will not be in this block by default.
+
+Once you have done this, save and close the file.
+
+### Docker Environment Variables
+
+We now need to add the following environment variables to our docker compose file:
+| Environment Variable      | Description |
+| ----------- | ----------- |
+| EXTENSION_PRIORITY      | Set to "SAML" to always use SAML auth, or set to "*, SAML" if you prefer to be given the choice.       |
+| SAML_IDP_URL   | The 'Login URL' you saved from Azure.        |
+| SAML_ENTITY_ID | Your Guacamole URL |
+| SAML_CALLBACK_URL | Your Guacamole URL |
+| SAML_IDP_METADATA_URL | The 'App Federation Metadata URL' you saved from Azure |
+
+You will also need to mount the following volumes to the container, per the 'Tweaks' section above:
+```
+volumes:
+    - ./start.sh:/opt/guacamole/bin/start.sh
+    - ./server.xml:/usr/local/tomcat/conf/server.xml
+```
+You can download my full docker-compose.yml for Guacamole and guacd [here](img\blog\2022-10\guacamole-sso-docker-compose.yml).
+
+
 
 
 
