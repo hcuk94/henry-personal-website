@@ -29,9 +29,20 @@ Back on the application page, click **Single Sign-on** in the sidebar, then clic
 
 <img src="/img/blog/2022-10/guacamole-sso-azure-config-saml.png" class="post-img" alt="Screenshot of Azure portal showing SAML configuration">
 
-On step 1, click **Edit** and populate the *Identifier* and *Reply URL* with the base URL for your Guacamole install - this could be something like https://guacamole.example.com
+On step 1, click **Edit** and populate the *Identifier* and *Reply URL* with the base URL for your Guacamole install - this could be something like https://guacamole.example.com/guacamole
 
 Next, on step 3, make note of the *App Federation Metadata Url*, and from step 4, take the *Login URL* - you'll need both of these shortly.
+
+## Configure Guacamole Accounts
+Next, we need to add our first Azure AD account into Guacamole. Others can follow at a later date, but right now lets just add an admin account.
+
+Log in to Guacamole using your existing admin login (or the default guacuser if its a new install).
+
+Click **Settings->Users** and add a new user. Leave the password blank, but set up other details. The username must match the email address in Azure AD:
+
+<img src="/img/blog/2022-10/guacamole-sso-azure-user-add.png" class="post-img" alt="Screenshot of Apache Guacamole showing the process of adding a user">
+
+In the **Permissions** section, tick all permissions so we have an admin account ready to go once our SSO is set up and working.
 
 ## Docker Container Setup
 
@@ -55,9 +66,7 @@ We will then link this to the docker container in our compose file shortly.
 #### Tweak Two: Edit Tomcat server.xml to set protocol to HTTPS
 If you are running Guacamole on HTTP, and running a reverse proxy to provide TLS support, then you will likely need to specify in your Tomcat server.xml file that it is running over https, or you will get an error in your logs like the below:
 
-{% highlight console %}
-18:37:53.931 [http-nio-8080-exec-2] WARN  o.a.g.a.s.a.AssertionConsumerServiceResource - Authentication attempted with an invalid SAML response: SAML response did not pass validation: The response was received at http://guacamole.example.com/guacamole/api/ext/saml/callback instead of https://guacamole.example.com/guacamole/api/ext/saml/callback
-{% endhighlight %}
+*18:37:53.931 [http-nio-8080-exec-2] WARN  o.a.g.a.s.a.AssertionConsumerServiceResource - Authentication attempted with an invalid SAML response: SAML response did not pass validation: The response was received at http://guacamole.example.com/guacamole/api/ext/saml/callback instead of https://guacamole.example.com/guacamole/api/ext/saml/callback*
 
 To do this, run the following command in the same directory as your docker-compose.yml on your docker host:
 
@@ -82,11 +91,11 @@ We now need to add the following environment variables to our docker compose fil
 
 | Environment Variable      | Description |
 | ------------------------- | ----------- |
-| **EXTENSION_PRIORITY**        | Set to "SAML" to always use SAML auth, or set to "*, SAML" if you prefer to be given the choice.       |
-| **SAML_IDP_URL**              | The 'Login URL' you saved from Azure.        |
-| **SAML_ENTITY_ID**            | Your Guacamole URL |
-| **SAML_CALLBACK_URL**         | Your Guacamole URL |
-| **SAML_IDP_METADATA_URL**     | The 'App Federation Metadata URL' you saved from Azure |
+| EXTENSION_PRIORITY        | Set to "SAML" to always use SAML auth, or set to "*, SAML" if you prefer to be given the choice.       |
+| SAML_IDP_URL              | The 'Login URL' you saved from Azure.        |
+| SAML_ENTITY_ID            | Your Guacamole URL |
+| SAML_CALLBACK_URL         | Your Guacamole URL |
+| SAML_IDP_METADATA_URL     | The 'App Federation Metadata URL' you saved from Azure |
 
 You will also need to mount the following volumes to the container, per the 'Tweaks' section above:
 ```
@@ -98,7 +107,33 @@ You can download my full docker-compose.yml for Guacamole and guacd [here](/img/
 
 
 
+## Nginx Setup
+Presuming you have Nginx in place as a reverse proxy, you'll need to ensure headers are set so that Guacamole receives the correct hostname for the SSO request - else it'll fail:
 
+```
+        location /guacamole {
+                proxy_pass http://dockerhost:8080/guacamole;
+                proxy_buffering off;
+                proxy_http_version 1.1;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+                proxy_set_header Host $host;
+                proxy_set_header X-Forwarded-Host $host;
+                proxy_set_header X-Forwarded-Server $host;
+                proxy_set_header X-Forwarded-Proto $scheme;
+        }
+```
+NB: In this example I am using /guacamole as the location - this is because otherwise you will get a SAML validation failure. You could however add a similar block in your Nginx config for the root (/) so that the application is still accessible at this level.
+
+## Restart Containers and Test
+Once all this is done, we can re-apply our Docker Compose config to bring the containers back up:
+```
+sudo docker-compose up -d
+```
+In my case Nginx is run on separate infrastructure, so I also performed a reload of Nginx elsewhere.
+
+Once Guacamole is back up, you can test your SSO. Depending on how you configured the EXTENSION_PRIORITY environment variable, you will either be taken straight to Azure AD auth, or presented with the Guacamole login and an option to use SSO.
 
 
 
