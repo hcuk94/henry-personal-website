@@ -36,13 +36,13 @@ services:
     environment:
       GUACD_HOSTNAME: guacd
       MYSQL_DATABASE: guacamole
-      MYSQL_HOSTNAME: 10.200.0.32
-      MYSQL_PASSWORD: 'u]TC(!cYQ.gwy2Om'
+      MYSQL_HOSTNAME: mysql
+      MYSQL_PASSWORD: 'password'
       MYSQL_USER: guacamole
 #      EXTENSION_PRIORITY: "*, saml"
-      SAML_IDP_URL: https://login.microsoftonline.com/7dd44178-8042-4c27-ac5c-dec9c4ee8143/saml2
-      SAML_ENTITY_ID: https://desktop.dustyservers.com/guacamole
-      SAML_CALLBACK_URL: https://desktop.dustyservers.com/guacamole
+      SAML_IDP_URL: https://login.microsoftonline.com/guid/saml2
+      SAML_ENTITY_ID: https://guacamole
+      SAML_CALLBACK_URL: https://guacamole
       SAML_IDP_METADATA_URL: file:///opt/guacamole/metadata.xml
     image: guacamole/guacamole
     links:
