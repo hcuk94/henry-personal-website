@@ -94,7 +94,7 @@ volumes:
     - ./start.sh:/opt/guacamole/bin/start.sh
     - ./server.xml:/usr/local/tomcat/conf/server.xml
 ```
-You can download my full docker-compose.yml for Guacamole and guacd [here](img\blog\2022-10\guacamole-sso-docker-compose.yml).
+You can download my full docker-compose.yml for Guacamole and guacd [here](/img/blog/2022-10/guacamole-sso-docker-compose.yml){:target="_blank"}.
 
 
 
