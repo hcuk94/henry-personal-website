@@ -80,7 +80,7 @@ Once you have done this, save and close the file.
 
 We now need to add the following environment variables to our docker compose file:
 | Environment Variable      | Description |
-| ----------- | ----------- |
+| ------------------------- | ----------- |
 | EXTENSION_PRIORITY      | Set to "SAML" to always use SAML auth, or set to "*, SAML" if you prefer to be given the choice.       |
 | SAML_IDP_URL   | The 'Login URL' you saved from Azure.        |
 | SAML_ENTITY_ID | Your Guacamole URL |
