@@ -40,7 +40,7 @@ Log in to Guacamole using your existing admin login (or the default guacuser if 
 
 Click **Settings->Users** and add a new user. Leave the password blank, but set up other details. The username must match the email address in Azure AD:
 
-<img src="/img/blog/2022-10/guacamole-sso-azure-user-add.png" class="post-img" alt="Screenshot of Apache Guacamole showing the process of adding a user">
+<img src="/img/blog/2022-10/guacamole-sso-user-add.png" class="post-img" alt="Screenshot of Apache Guacamole showing the process of adding a user">
 
 In the **Permissions** section, tick all permissions so we have an admin account ready to go once our SSO is set up and working.
 
