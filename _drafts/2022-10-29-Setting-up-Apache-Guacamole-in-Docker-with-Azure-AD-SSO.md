@@ -55,9 +55,9 @@ We will then link this to the docker container in our compose file shortly.
 #### Tweak Two: Edit Tomcat server.xml to set protocol to HTTPS
 If you are running Guacamole on HTTP, and running a reverse proxy to provide TLS support, then you will likely need to specify in your Tomcat server.xml file that it is running over https, or you will get an error in your logs like the below:
 
-```
+{% highlight console %}
 18:37:53.931 [http-nio-8080-exec-2] WARN  o.a.g.a.s.a.AssertionConsumerServiceResource - Authentication attempted with an invalid SAML response: SAML response did not pass validation: The response was received at http://guacamole.example.com/guacamole/api/ext/saml/callback instead of https://guacamole.example.com/guacamole/api/ext/saml/callback
-```
+{% endhighlight %}
 
 To do this, run the following command in the same directory as your docker-compose.yml on your docker host:
 
