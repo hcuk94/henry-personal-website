@@ -12,6 +12,7 @@ I will be making the following assumptions:
 - You already have Guacamole up and running in Docker, preferably defined by a Docker Compose file
 - You have an Nginx reverse proxy running in front of the Guacamole web application
 - You have admin access to Azure AD
+
 If any of the above are not true, you may need to tweak my settings for your own environment.
 
 ## Azure AD Setup
@@ -22,6 +23,8 @@ Navigate to the Azure Portal, click **Azure Active Directory** followed by **Ent
 On the following page choose **Create your own application**
 
 <img src="/img/blog/2022-10/guacamole-sso-azure-create-app.png" class="post-img" alt="Screenshot of Azure portal showing App Creation Screen">
+
+Give the application a name of your choosing, and select the 'non-gallery' option, then continue to create the app.
 
 Once the app is created, in the sidebar click **Users and groups**, then select users/groups to allow access to Guacamole.
 
@@ -64,11 +67,11 @@ Link to updated script here: [https://github.com/apache/guacamole-client/blob/ma
 We will then link this to the docker container in our compose file shortly.
 
 #### Tweak Two: Edit Tomcat server.xml to set protocol to HTTPS
-If you are running Guacamole on HTTP, and running a reverse proxy to provide TLS support, then you will likely need to specify in your Tomcat server.xml file that it is running over https, or you will get an error in your logs like the below:
+If you are running Guacamole itself as HTTP (not HTTPS), and running a reverse proxy to provide TLS support, then you will likely need to specify in your Tomcat server.xml file that it is running over https, or you will get an error in your logs like the below:
 
 *18:37:53.931 [http-nio-8080-exec-2] WARN  o.a.g.a.s.a.AssertionConsumerServiceResource - Authentication attempted with an invalid SAML response: SAML response did not pass validation: The response was received at http://guacamole.example.com/guacamole/api/ext/saml/callback instead of https://guacamole.example.com/guacamole/api/ext/saml/callback*
 
-To do this, run the following command in the same directory as your docker-compose.yml on your docker host:
+To mitigate this, first run the following command in the same directory as your docker-compose.yml on your docker host:
 
 ```
 sudo docker exec -it guacamole cat /usr/local/tomcat/conf/server.xml >> server.xml
@@ -124,20 +127,15 @@ Presuming you have Nginx in place as a reverse proxy, you'll need to ensure head
                 proxy_set_header X-Forwarded-Proto $scheme;
         }
 ```
-NB: In this example I am using /guacamole as the location - this is because otherwise you will get a SAML validation failure. You could however add a similar block in your Nginx config for the root (/) so that the application is still accessible at this level.
+NB: In this example I am using /guacamole as the location - this is because the docker container (and Tomcat) uses this path, so you will get a SAML validation failure if you don't. You could however add a similar block in your Nginx config for the root (/) so that the application is still accessible at this level.
 
 ## Restart Containers and Test
 Once all this is done, we can re-apply our Docker Compose config to bring the containers back up:
 ```
 sudo docker-compose up -d
 ```
-In my case Nginx is run on separate infrastructure, so I also performed a reload of Nginx elsewhere.
+In my case Nginx is run on separate infrastructure, so I also performed a reload of Nginx elsewhere to apply the updated config.
 
 Once Guacamole is back up, you can test your SSO. Depending on how you configured the EXTENSION_PRIORITY environment variable, you will either be taken straight to Azure AD auth, or presented with the Guacamole login and an option to use SSO.
 
-
-
-
-
-
-
+I hope this was helpful, and feel free to leave a comment if you experience any issues or have a suggestion/correction.
