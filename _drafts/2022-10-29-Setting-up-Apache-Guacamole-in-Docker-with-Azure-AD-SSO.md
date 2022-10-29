@@ -14,6 +14,7 @@ I will be making the following assumptions:
 - You have admin access to Azure AD
 If any of the above are not true, you may need to tweak my settings for your own environment.
 
+## Azure AD Setup
 First things first, lets set up our Azure AD application.
 
 Navigate to the Azure Portal, click **Azure Active Directory** followed by **Enterprise Applications**, then click **New application**
@@ -30,44 +31,46 @@ Back on the application page, click **Single Sign-on** in the sidebar, then clic
 
 On step 1, click **Edit** and populate the *Identifier* and *Reply URL* with the base URL for your Guacamole install - this could be something like https://guacamole.example.com
 
+Next, on step 3, make note of the *App Federation Metadata Url*, and from step 4, take the *Login URL* - you'll need both of these shortly.
+
+## Docker Environment Variables
+
+We now need to configure our Guacamole Docker container to use the SAML plugin to authenticate against Azure AD.
+
+I'm using the official guacamole/guacamole and guacamole/guacd Docker images from Apache, and I recommend doing the same. If you are not using Docker then you will need to modify your server files accordingly.
+
+### Tweaks
+I hit a couple of snags along the way which I've managed to resolve, but which require a little bit of tweaking:
+
+#### Tweak One: Update start.sh script
+When running Guacamole in Docker, your configuration options should be specified as environment variables. 
+In Guacamole 1.4.0 however, the start.sh script used by Docker does not include the SAML module or its environment variables, even though the SAML module is shipped with this version of Guacamole.
+
+If by the time you read this, Guacamole 1.5.0 is available then this should be a moot point, however if running 1.4.0 I recommend you download the latest version of start.sh from GitHub and save it in the same directory as your docker-compose.yml - otherwise your SAML variables will not be picked up.
+
+Link to updated script here: [https://github.com/apache/guacamole-client/blob/master/guacamole-docker/bin/start.sh](https://github.com/apache/guacamole-client/blob/master/guacamole-docker/bin/start.sh)
+
+We will then link this to the docker container in our compose file shortly.
+
+#### Tweak Two: Edit Tomcat server.xml to set protocol to HTTPS
+If you are running Guacamole on HTTP, and running a reverse proxy to provide TLS support, then you will likely need to specify in your Tomcat server.xml file that it is running over https, or you will get an error in your logs like the below:
+
+```
+18:37:53.931 [http-nio-8080-exec-2] WARN  o.a.g.a.s.a.AssertionConsumerServiceResource - Authentication attempted with an invalid SAML response: SAML response did not pass validation: The response was received at http://guacamole.example.com/guacamole/api/ext/saml/callback instead of https://guacamole.example.com/guacamole/api/ext/saml/callback
+```
+
+To do this, run the following command in the same directory as your docker-compose.yml on your docker host:
+
+```
+sudo docker exec -it guacamole cat /usr/local/tomcat/conf/server.xml >> server.xml
+```
+You will need to change *guacamole* to the name of your container if it differs.
 
 
+Here is my docker-compose.yml file for Guacamole:
 
-
-
-
-
-
-
-
-
-
-
-
-
-## Docker Compose
-I'm using Docker Compose to define my Guacamole services, with the official guacamole and guacd images from Docker Hub.
-
-
-
-
-
-
-
-
-
-
-
-
-
-Below is my docker-compose.yml file. I'll explain some of the custom configuration later in this post, but the main principle is that we have 2 containers - guacamole and guacd. Guacamole is the web frontend, while guacd handles the actual connections to other machines.
-
-{% highlight yaml %}
+```
 version: '2.0'
-
-networks:
-  guacnet:
-    driver: bridge
 
 services:
   guacd:
@@ -87,30 +90,36 @@ services:
     environment:
       GUACD_HOSTNAME: guacd
       MYSQL_DATABASE: guacamole
-      MYSQL_HOSTNAME: mysql
+      MYSQL_HOSTNAME: server
       MYSQL_PASSWORD: 'password'
       MYSQL_USER: guacamole
-      EXTENSION_PRIORITY: "*, saml" # comment out to always use SAML auth
+      EXTENSION_PRIORITY: "*, saml"
       SAML_IDP_URL: https://login.microsoftonline.com/guid/saml2
-      SAML_ENTITY_ID: https://guacamole
-      SAML_CALLBACK_URL: https://guacamole
-      SAML_IDP_METADATA_URL: file:///opt/guacamole/metadata.xml
+      SAML_ENTITY_ID: https://guacamole.example.com
+      SAML_CALLBACK_URL: https://guacamole.example.com
+      SAML_IDP_METADATA_URL: https://login.microsoftonline.com/guid/federationmetadata/2007-06/federationmetadata.xml?appid=guid
     image: guacamole/guacamole
     links:
     - guacd
     networks:
       guacnet:
     ports:
-    - 8080:8080/tcp # Guacamole is on :8080/guacamole, not /.
+    - 8080:8080/tcp
     restart: always
     volumes:
      - ./start.sh:/opt/guacamole/bin/start.sh
-     - ./metadata.xml:/opt/guacamole/metadata.xml
      - ./server.xml:/usr/local/tomcat/conf/server.xml
-{% endhighlight %}
 
-As you can see from the above compose file, guacd requires very little config.
+networks:
+  guacnet:
+    driver: bridge
+```
 
-Guacamole requires some config however, including:
-- A hostname for guacd (essentially the name of the guacd container)
-- The config for our MySQL database 
+
+
+
+
+
+
+
+
