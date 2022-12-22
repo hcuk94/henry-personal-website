@@ -1,0 +1,13 @@
+_id: 1e25fd90-81ea-11ed-aa5b-b1593db1ad14
+name: Henry Cole
+email: 98a29831e55e0620ab3dbe2664aa91eb
+url: 'https://www.henrycole.uk/'
+hidden: ''
+message: >-
+  Hi Xin Zhang, yes I run my own container hosts so using the docker-compose
+  file in step 1, I have staticman running across 2 hosts, each with an nginx
+  proxy in front for TLS etc.
+
+  I believe Staticman recommended Heroku for hosting, but I'm not sure Heroku is
+  free any more.
+date: 1671707805
