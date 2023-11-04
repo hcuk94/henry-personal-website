@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Setting up Azure AD SAML SSO on Apache Guacamole in Docker"
-excerpt: "Apache Guacamole is a clientless HTML5 remote desktop gateway. This is a quick guide on setting up Azure AD SAML SSO to be able to authenticate to Guacamole running in Docker, behind an Nginx reverse proxy."
+title: "Setting up Entra Azure AD SAML SSO on Apache Guacamole in Docker"
+excerpt: "Apache Guacamole is a clientless HTML5 remote desktop gateway. This is a quick guide on setting up Microsoft Azure AD (Entra) SAML SSO to be able to authenticate to Guacamole running in Docker, behind an Nginx reverse proxy."
 comments: true
 ---
 Apache Guacamole is a clientless remote desktop gateway, giving you easy and secure access to protocols such as RDP, SSH and VNC via an HTML5 web app.
