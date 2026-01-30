@@ -7,8 +7,8 @@ on:
     branches: [ "staging" ]
 
 jobs:
-  build-and-deploy:
-
+  build:
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
@@ -23,7 +23,27 @@ jobs:
         docker run \
         -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
         jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --drafts"
-        
+
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: site-build
+        path: _site/
+        retention-days: 1
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push'
+
+    steps:
+    - name: Download build artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: site-build
+        path: _site/
+
     - name: Set up WireGuard Connection
       uses: egor-tensin/setup-wireguard@v1
       with:
@@ -33,15 +53,13 @@ jobs:
        allowed_ips: '${{ secrets.WG_ALLOWEDIPS }}'
        private_key: '${{ secrets.WG_PRIVKEY }}'
 
-    - name: Copy Files
+    - name: Deploy to Server
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.SSH_HOST_WWW1 }}
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
         rm: true
-        strip_components: 1
         source: "_site/*"
         target: "/var/www/staging.henrycole.uk/html"
-
-
+        strip_components: 1
