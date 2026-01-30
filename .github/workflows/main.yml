@@ -7,8 +7,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-and-deploy:
-
+  build:
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
@@ -20,7 +20,27 @@ jobs:
         docker run \
         -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
         jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build"
-        
+
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: site-build
+        path: _site/
+        retention-days: 1
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push'
+
+    steps:
+    - name: Download build artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: site-build
+        path: _site/
+
     - name: Set up WireGuard Connection
       uses: egor-tensin/setup-wireguard@v1
       with:
@@ -30,11 +50,6 @@ jobs:
        allowed_ips: '${{ secrets.WG_ALLOWEDIPS }}'
        private_key: '${{ secrets.WG_PRIVKEY }}'
 
-#    - name: Add Routes
-#      run: |
-#        ifname=$(ls /sys/class/net/ | grep '^wg')
-#        sudo ip route add 10.200.0.0/16 dev $ifname
-
     - name: Deploy to Server - www1
       uses: appleboy/scp-action@master
       with:
@@ -42,9 +57,9 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
         rm: true
-        strip_components: 1
         source: "_site/*"
         target: "/var/www/henrycole.uk/html"
+        strip_components: 1
 
     - name: Deploy to Server - www2
       uses: appleboy/scp-action@master
@@ -53,6 +68,6 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
         rm: true
-        strip_components: 1
         source: "_site/*"
         target: "/var/www/henrycole.uk/html"
+        strip_components: 1
