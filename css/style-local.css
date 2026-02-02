@@ -12,3 +12,12 @@
 .post-img {
     max-width: 100%;
 }
+
+/* Mobile search bar constraint */
+@media (max-width: 576px) {
+    .sticky-top form .form-control {
+        max-width: 250px;
+        margin: 0 auto;
+        display: block;
+    }
+}
