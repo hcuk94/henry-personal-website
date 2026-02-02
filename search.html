@@ -33,14 +33,26 @@ title: Search
         // Read query parameter from URL and trigger search
         const urlParams = new URLSearchParams(window.location.search);
         const query = urlParams.get('q');
-        if (query) {
-          // Find the search input and set its value
-          const searchInput = document.querySelector('.pagefind-ui__search-input');
-          if (searchInput) {
-            searchInput.value = query;
-            // Trigger input event to start the search
-            searchInput.dispatchEvent(new Event('input', { bubbles: true }));
-          }
+        const searchInput = document.querySelector('.pagefind-ui__search-input');
+        
+        if (query && searchInput) {
+          searchInput.value = query;
+          // Trigger input event to start the search
+          searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+        
+        // Update URL query string as user types
+        if (searchInput) {
+          searchInput.addEventListener('input', (e) => {
+            const newQuery = e.target.value;
+            const url = new URL(window.location);
+            if (newQuery) {
+              url.searchParams.set('q', newQuery);
+            } else {
+              url.searchParams.delete('q');
+            }
+            history.replaceState(null, '', url);
+          });
         }
       });
     </script>
