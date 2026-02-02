@@ -21,6 +21,17 @@ jobs:
         -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
         jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build"
 
+    - name: Setup Node.js for Pagefind
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install Pagefind
+      run: npm install -g pagefind
+
+    - name: Index with Pagefind
+      run: pagefind --site _site
+
     - name: Upload build artifact
       uses: actions/upload-artifact@v4
       with:
