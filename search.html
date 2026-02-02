@@ -13,20 +13,35 @@ title: Search
     <div id="search"></div>
     <script>
       window.addEventListener('DOMContentLoaded', (event) => {
-        new PagefindUI({ 
+        const pagefindUI = new PagefindUI({ 
           element: "#search",
           showSubResults: true,
           showImages: false,
           processResult: (result) => {
             // Exclude homepage, blog listing, and search page from results
-            if (result.url === '/' || result.url === '/index.html' || 
-                result.url === '/blog.html' || result.url === '/blog/' ||
-                result.url === '/search.html' || result.url === '/search/') {
-              return null;
-            }
+            if (result.url === '/') return null;
+            if (result.url === '/index.html') return null;
+            if (result.url === '/blog.html') return null;
+            if (result.url === '/blog/') return null;
+            if (result.url === '/search.html') return null;
+            if (result.url === '/search/') return null;
+            if (result.url && result.url.startsWith('/#')) return null;
             return result;
           }
         });
+        
+        // Read query parameter from URL and trigger search
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = urlParams.get('q');
+        if (query) {
+          // Find the search input and set its value
+          const searchInput = document.querySelector('.pagefind-ui__search-input');
+          if (searchInput) {
+            searchInput.value = query;
+            // Trigger input event to start the search
+            searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+        }
       });
     </script>
   </div>
