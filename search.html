@@ -3,7 +3,7 @@ layout: default
 title: Search
 ---
 
-<div class="row">
+<div class="row" data-pagefind-ignore>
   <h2 class="mt-4 mb-3">Search 🔍</h2>
   <p>Search across all blog posts and pages on this site.</p>
   
@@ -18,8 +18,10 @@ title: Search
           showSubResults: true,
           showImages: false,
           processResult: (result) => {
-            // Exclude homepage from results
-            if (result.url === '/' || result.url === '/index.html') {
+            // Exclude homepage, blog listing, and search page from results
+            if (result.url === '/' || result.url === '/index.html' || 
+                result.url === '/blog.html' || result.url === '/blog/' ||
+                result.url === '/search.html' || result.url === '/search/') {
               return null;
             }
             return result;
