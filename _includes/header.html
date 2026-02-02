@@ -21,7 +21,7 @@
 <div class="sticky-top pt-4"> 
 <img src="{% if site.branch == "main" %}/img/henry-profile.webp{% else %}/img/henry-profile.staging.webp{% endif %}" width="250px" height="250px" class="img-thumbnail rounded img-centre affix" alt="Henry Cole Profile Picture"/>
 <h1 class="display-5 mt-2 text-center"><a class="text-reset text-decoration-none" href="/">Henry Cole</a></h1>
-<p class="text-center lead mt-2">Systems Engineer with 10+ years' experience in enterprise IT & security</p>
+<p class="text-center lead mt-2">Systems Engineer with 10+' years' experience in enterprise IT</p>
 <span class="text-center img-centre">
 <nav class="nav justify-content-center">
 <a class="nav-link text-secondary" href="/">home</a>
@@ -30,6 +30,13 @@
 <a class="nav-link text-secondary" href="/#contact">contact</a>
 </nav>
 </span>
+<!-- Search Bar -->
+<div class="mt-3 px-3">
+  <form action="/search.html" method="get" class="d-flex">
+    <input type="search" name="q" class="form-control form-control-sm" placeholder="Search..." aria-label="Search" style="border-radius: 0.25rem;">
+    <button type="submit" class="btn btn-sm btn-outline-secondary ms-1" style="border-radius: 0.25rem;">🔍</button>
+  </form>
+</div>
 <br/>
 <nav class="nav justify-content-center">
 {% include social_icons.html %}
