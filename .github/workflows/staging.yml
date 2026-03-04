@@ -36,7 +36,7 @@ jobs:
       run: pagefind --site _site
 
     - name: Upload build artifact
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: site-build
         path: _site/
@@ -50,7 +50,7 @@ jobs:
 
     steps:
     - name: Download build artifact
-      uses: actions/download-artifact@v7
+      uses: actions/download-artifact@v8
       with:
         name: site-build
         path: _site/
