@@ -13,7 +13,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
 
     - name: Copy Staging Config
       run: cp _config.staging.yml _config.yml
@@ -25,7 +25,7 @@ jobs:
         jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --drafts"
 
     - name: Setup Node.js for Pagefind
-      uses: actions/setup-node@v6
+      uses: actions/setup-node@v7
       with:
         node-version: '18'
 
